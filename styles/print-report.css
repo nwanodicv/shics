@@ -1,0 +1,19 @@
+@media print {
+  body {
+    background: white;
+    color: black;
+  }
+
+  nav, header, footer, button {
+    display: none !important;
+  }
+
+  #reportCardDisplay {
+    width: 100%;
+    padding: 20px;
+  }
+
+  h4 {
+    text-align: center;
+  }
+}

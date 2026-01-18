@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Welcome to the Sacred Harvasters International School Home Page. Explore our academic programs, extracurricular activities, and community events. Join us in fostering a nurturing mind environment and cultivating excellence for holistic education and personal growth.">
+    <title>Enter Scores</title>
+    <meta name="author" content="Vjutech LTD"/>
+    <meta name="robots" content="index, follow">
+
+    <!-------------------STYLES--------------------->
+    <link rel="stylesheet" href="Styles/normalize.css">
+    <link rel="stylesheet" href="Styles/form-base.css">
+    <link rel="stylesheet" href="Styles/base.css">
+    <link rel="stylesheet" href="Styles/medium.css">
+    <link rel="stylesheet" href="Styles/large.css">
+    
+
+    <!--------------------SCRIPTS----------------------->
+    <script src="scripts/date.js" defer></script>
+    <script src="scripts/navigation.js" defer></script>
+    <script src="scripts/auth.js" defer></script>
+    <script src="scripts/grade-entry.js" defer></script>
+    <script src="scripts/roles.js" defer></script>
+    <script src="scripts/route-guard.js" defer></script>
+  
+    <!--Open Graph-->
+    <meta property="og:title" content="Sacred Harvasters Internation School Home Page">
+    <meta property="og:description" content="Welcome to the Sacred Arvasters International School Home Page. Explore our academic programs, extracurricular activities, and community events. Join us in fostering a nurturing mind environment and cultivating excellence for holistic education and personal growth.">
+    <meta property="og:image" content="images/shics_favicon.svg">
+    <meta property="og:url" content="https://Chimezie-homepage.com/">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Sacred Harvasters International School">
+
+    <!--------------FAVICON LINK-------------->
+    <link rel="icon" href="images/harvester.svg" type="image/x-icon" alt="Favicon">
+</head>
+<body>
+    <header>
+        <img src="images/harvester.svg" alt="Logo" loading="lazy">
+        <span>SHICS</span>
+
+        <!-----------------HAMBURGER---------------->
+        <button aria-label="hamburger button" class="hamburger" id="ham-btn"></button>
+
+        <!---------------NAVIGATION ------------------>
+        <nav id="nav-links" class="nav-links">
+        <ul>
+            <li><a class="home-page" href="admin.html">Home</a></li>
+            <li><a class="staff-dashboard-page" href="#">Sign In</a></li>
+        </ul>
+        </nav>
+
+    </header>
+    <main>
+        <!-- Notification Bell -->
+        <div class="notification-wrapper">
+          <button id="bellBtn" aria-label="Notifications">
+            🔔 <span id="notifCount" class="badge">0</span>
+          </button>
+        
+          <div id="notifDropdown" class="notification-dropdown hidden">
+            <h4>Notifications</h4>
+            <ul id="notifList"></ul>
+          </div>
+        </div>
+
+    </main>
+    <footer>
+        <div>
+            <h3>Office Address</h3>
+            <p>25 ogbe-umuokuni</p>
+            <p>Ogwashi-uku 320107, Anioch LGA</p>
+            <p>Delta State, Nigeria.</p>
+            <p>sacredharvesters@gmail.com</p>
+            <p>(234) 07035957395</p>
+            
+        </div>
+        <div class="social-media">
+            <a href="https://www.linkedin.com/in/chimezie-nwanodi-4456aa27a/" target="blank" aria-label="LinkedIn Icon"><img src="images/linkedin.svg" alt="LinkedIn Icon" width="16" height="16" loading="lazy">
+            </a>
+            <a href="https://github.com/" target="blank" aria-label="Github Icon"><img src="images/github.svg" alt="Github Icon" width="16" height="16" loading="lazy">
+            </a>
+            <a href="" target="blank" aria-label="Twitter Icon"><img src="images/twitter-x.svg" alt="Twiter Icon" width="16" height="16" loading="lazy">
+            </a>
+        </div>
+        <div>
+            <div>
+                <h3>Contact Information</h3>
+                <p>6 Holy Family</p>
+                <p>Ogwashi-uku 320107, Anioch LGA</p>
+                <p>Delta State, Nigeria.</p>
+                <p>vijutechofficial@gmail.com</p>
+                <p>(234) 8073-390967</p>
+            </div>
+            <p>
+                &copy; 2025 | VjuTech | Nigeria
+            </p>
+            
+            <p id="last-modification"></p>
+        </div>
+    </footer>
+</body>
+</html>

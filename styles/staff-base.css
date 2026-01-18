@@ -1,0 +1,375 @@
+/*********** Color Scheme************
+Planned site color palette:
+
+Primary green (#800000) — used for headers, nav bar, buttons
+
+Soft Light Gray (#f5f7fa) — used for backgrounds
+
+Dark Gray (#222) — used for paragraph text
+
+Primary Font: Roboto — for body text
+
+Secondary Font: Montserrat — for headings and UI elements
+
+Hamburger open icon: \2630
+Hamburger closing icon: \00D7*/
+
+
+
+
+* {
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    box-sizing: border-box;
+}
+
+header, main, footer {
+    max-width: 900px;
+    margin: 0 auto;
+}
+/*************** HEADER SECTION **************/
+header {
+    display: grid;
+    grid-template-columns: 24px auto auto;
+    padding: 5px 0 5px 10px;
+    align-items: end;
+    border-bottom: solid 1px #222;
+    column-gap: 6px;
+    color: #800000;
+}
+
+header > img { /***logo***/
+    width: 100%;
+    height: 16px;
+    margin: 3px 4px;
+}
+
+span {
+    margin: 0 4px;
+}
+
+/*************** HAMBURGER **************/
+.hamburger {
+    border: 2px solid #eee;
+    width: 32px;
+    height: 32px;
+    margin: 0 0;
+    cursor: pointer;
+    
+}
+
+.hamburger::before {
+    content: "\2630";
+    font-size: 1.2rem;
+}
+
+.hamburger.show::before {
+    content: " \00D7";
+    font-size: 1.5rem;
+}
+/********** NAVIGATION MENU ********/
+
+.nav-links {
+    display: none;
+}
+
+.nav-links.show {
+    display: block;
+}
+
+.nav-links ul {
+    list-style-type: none;
+    margin: 0 0;
+    padding: 0;
+
+    
+}
+
+.nav-links a {
+    display: block;
+    margin-top: 18px;
+    text-decoration: none;
+    color: #800000;
+    padding: 10px 10px;
+    border-bottom: solid 1px #ddd;
+    width: 19rem;
+    height: 2rem;
+    cursor: pointer;
+}
+
+a:hover {
+    background-color: #faefef;
+}
+
+/************* MAIN ****************/
+h1 {
+    margin: 10px 10px;
+    color: #222;
+}
+
+h2 {
+    margin: 10px 10px;
+    color:#222;
+}
+
+p {
+    margin: 10px 10px;
+    color:#222;
+}
+
+section input[type="file"] {
+    background-color: #faefef;
+    border: 1px solid #f8baba;
+    border-radius: 0.2rem;
+    margin: 10px 10px;
+    cursor: pointer;
+}
+
+li .staff-dashboard-page { /****Way finding ****/
+    background-color: #faefef;
+    width: 17.6rem;
+}
+
+aside {
+    width: 100%;
+    margin: 20px 10px;
+    border-style: ridge;
+    border:1px solid #800000;
+    border-radius: 4px;
+}
+
+aside > h2 {
+    color: #222;
+    margin: 10px 10px;
+}
+aside > p {
+    color: #222;
+    margin: 10px 10px;
+}
+
+aside label {
+    color: #222;
+    margin: 10px 10px;
+}
+
+aside select {
+    color: #222;
+    margin: 10px 10px;
+}
+
+aside table {
+    padding: 10px 0;
+}
+
+aside button {
+    margin: 10px 10px;
+}
+
+/* ============================
+   NOTIFICATION BELL STYLES
+   ============================ */
+
+.notification-wrapper {
+  position: relative;
+  display: inline-block;
+  margin-left: 1rem;
+}
+
+#notificationBell {
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+}
+
+/* Red badge */
+#notificationCount {
+  position: absolute;
+  top: -5px;
+  right: -8px;
+  background: red;
+  color: white;
+  font-size: 0.7rem;
+  padding: 2px 6px;
+  border-radius: 50%;
+  display: none;
+}
+
+.notifications-section {
+  display: none;
+  margin-top: 2rem;
+}
+
+.notifications-section.show {
+  display: block;
+}
+
+
+
+/************* HERO SECTION ****************/
+    
+.hero-section {
+    position: relative;      /* Allows absolute positioning inside */
+    width: 100%;
+    max-height: 450px;
+    overflow: hidden;
+}
+.hero-section > .hero-img {
+    width: 100%;
+    display: block;
+    height: 300px;
+    margin-left: 0 10px;
+}
+
+.hero-section .hero-btn {
+    position: absolute;
+    bottom: 20%;            /* Move up from bottom */
+    left: 60%;
+    transform: translateX(-50%);
+    opacity: 100%;
+    background: #800000;
+    color: white;
+    margin-left: 50px;
+    padding: 0.8rem 1.6rem;
+    font-size: 1.2rem;
+    text-decoration: none;
+    border-radius: 6px;
+    font-weight: 600;
+    box-shadow: 0 4px 14px rgba(0,0,0,0.25);
+}
+
+.hero-section .hero-signup {
+    position: absolute;
+    bottom: 20%;            /* Move up from bottom */
+    left: 27%;
+    transform: translateX(-50%);
+    opacity: 100%;
+    background: #800000;;
+    color: white;
+    padding: 0.8rem 1.6rem;
+    font-size: 1.2rem;
+    text-decoration: none;
+    border-radius: 6px;
+    font-weight: 600;
+    box-shadow: 0 4px 14px rgba(0,0,0,0.25);
+}
+
+.hero-section .hero-text {
+    position: absolute;
+    bottom: 20%;            /* Move up from bottom */
+    left: 30%;
+    transform: translateX(-50%);
+    opacity: 60%;
+    background-color: #fff;
+    color: #222;
+    padding: 0.8rem 1.6rem;
+    font-size: 1.6rem;
+    text-decoration: none;
+    border-radius: 6px;
+    font-weight: 600;
+    margin-bottom: -1rem;
+    margin-left: 4rem;
+    width: 27rem;
+    text-align: center;
+    box-shadow: 0 4px 14px rgba(0,0,0,0.25);
+
+}
+
+/***************** Attendance Section *************/
+.attendance-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 0 10px;
+}
+
+.attendance-table th,
+.attendance-table td {
+  padding: 0.6rem;
+  border: 1px solid #f8baba;
+  margin: 0 10px;
+  column-gap: 20px;
+}
+
+.checkin-btn, .checkout-btn {
+    width: auto;
+    height: 30px;
+    background-color: #faefef;
+    border: 1px solid #f8baba;
+    border-radius: 0.2rem;
+    margin: 10px 10px;
+    cursor: pointer;
+}
+
+.checkout-btn:hover {
+    background-color: #f8baba;
+}
+
+.checkin-btn:hover {
+    background-color: #f8baba;
+}
+
+/***************** UPLAOD SECTION *************/
+.upload-btn {
+    width: auto;
+    height: 30px;
+    background-color: #faefef;
+    border: 1px solid #f8baba;
+    border-radius: 0.2rem;
+    margin: 10px 10px;
+    cursor: pointer;
+}
+
+.upload-btn:hover {
+    background-color: #f8baba;
+}
+/***************** FOOTER *************/
+footer {
+    display: grid;
+    row-gap: 30px;
+    background-color: #f5f7fa;
+    text-align: center;
+    padding: 1rem 10px;
+}
+
+.social-media {
+    display: flex;
+    justify-content: center;
+    column-gap: 8px;
+}
+
+.social-media a {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 44px;
+    height: 44px;
+    border: #f8d0d0 solid 1px;
+    border-radius: 4px;
+}
+
+.social-media img {
+    width: 22px;
+    height: 22px;
+}
+
+.social-media a:hover {
+    background-color: #faefef;
+}
+
+footer p {
+    color: #222;
+    font-size: 0.7rem;
+    margin: 0;
+    padding-bottom: 4px;
+}
+
+footer h3 {
+    color: #800000;
+    font-size: 0.7rem;
+    font-weight: bold;
+    padding-bottom: 4px;
+    margin: 0;
+}
+
+footer div {
+    text-align: left;
+}

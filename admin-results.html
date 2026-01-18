@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Welcome to the Sacred Harvasters International School Home Page. Explore our academic programs, extracurricular activities, and community events. Join us in fostering a nurturing mind environment and cultivating excellence for holistic education and personal growth.">
+    <title>Admin Results Page</title>
+    <meta name="author" content="Vjutech LTD"/>
+    <meta name="robots" content="index, follow">
+
+    <!-------------------STYLES--------------------->
+    <link rel="stylesheet" href="Styles/normalize.css">
+    <link rel="stylesheet" href="Styles/admin-base.css">
+    <link rel="stylesheet" href="Styles/form-base.css">
+    <link rel="stylesheet" href="Styles/medium.css">
+    <link rel="stylesheet" href="Styles/large.css">
+    <link rel="stylesheet" href="Styles/notification.css">
+    
+
+    <!--------------------SCRIPTS----------------------->
+    <script src="scripts/date.js" defer></script>
+    <script src="scripts/navigation.js" defer></script>
+    <!-- AUTH -->
+    <script src="scripts/auth.js" defer></script>
+    <script type="module" src="scripts/admin-results.js" defer></script>
+  
+    <!--Open Graph-->
+    <meta property="og:title" content="Sacred Harvasters Internation School Home Page">
+    <meta property="og:description" content="Welcome to the Sacred Arvasters International School Home Page. Explore our academic programs, extracurricular activities, and community events. Join us in fostering a nurturing mind environment and cultivating excellence for holistic education and personal growth.">
+    <meta property="og:image" content="images/harvester.svg">
+    <meta property="og:url" content="https://Chimezie-homepage.com/">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Sacred Harvasters International School">
+
+    <!--------------FAVICON LINK-------------->
+    <link rel="icon" href="images/harvester.svg" type="image/x-icon" alt="Favicon">
+</head>
+<body>
+    <header>
+        <img src="images/harvester.svg" alt="Logo" loading="lazy">
+        <span>Sacred Harvasters International School</span>
+
+        <!-----------------HAMBURGER---------------->
+        <button aria-label="hamburger button" class="hamburger" id="ham-btn"></button>
+
+        <!---------------NAVIGATION ------------------>
+        <nav id="nav-links" class="nav-links">
+        <ul>
+            <li><a class="Home-page" href="index.html">Home</a></li>
+            <li><a class="admin-dashboard-page" href="admin.html">Admin</a></li>
+        </ul>
+        </nav>
+        <!-- NOTIFICATION BELL -->
+        <div class="notification-wrapper">
+        
+          <!-- Bell icon -->
+          <button id="notificationBell" aria-label="Notifications">
+            🔔
+          </button>
+        
+          <!-- Unread count badge -->
+          <span id="notificationCount" aria-hidden="true">0</span>
+        
+        </div>
+
+    </header>
+    <!--Navigation Submenu-->
+    <nav id="nav-links" class="nav-links">
+      <ul>
+          <li><a class="#" href="#">Staff Management</a></li>
+          <li><a class="#" href="#">Attendance</a></li>
+          <li><a class="#" href="#">Lesson Note</a></li>
+          <li><a class="#" href="reports.html">Reports</a></li>
+      </ul>
+    </nav>
+    <main>
+        <h1>Result Management</h1>
+
+        <section class="card">
+          <h2>Upload Result</h2>
+        
+          <form id="resultForm">
+            <input type="text" id="studentId" placeholder="Student ID" required>
+            <input type="text" id="studentName" placeholder="Student Name" required>
+            <input type="text" id="classLevel" placeholder="Class" required>
+            <input type="text" id="term" placeholder="Term" required>
+            <input type="text" id="session" placeholder="Session" required>
+        
+            <textarea id="subjectsJson"
+              placeholder='Subjects JSON e.g [{"name":"Math","ca":20,"exam":60,"total":80}]'
+              required>
+            </textarea>
+        
+            <button type="submit">Save Result</button>
+          </form>
+        </section>
+        
+        <section>
+          <h2>Saved Results</h2>
+          <div id="resultList"></div>
+        </section>   
+    </main>
+    <footer>
+        <div>
+            <h3>Office Address</h3>
+            <p>25 ogbe-umuokuni</p>
+            <p>Ogwashi-uku 320107, Anioch LGA</p>
+            <p>Delta State, Nigeria.</p>
+            <p>sacredharvesters@gmail.com</p>
+            <p>(234) 07035957395</p>
+            
+        </div>
+        <div class="social-media">
+            <a href="https://www.linkedin.com/in/chimezie-nwanodi-4456aa27a/" target="blank" aria-label="LinkedIn Icon"><img src="images/linkedin.svg" alt="LinkedIn Icon" width="16" height="16" loading="lazy">
+            </a>
+            <a href="https://github.com/" target="blank" aria-label="Github Icon"><img src="images/github.svg" alt="Github Icon" width="16" height="16" loading="lazy">
+            </a>
+            <a href="" target="blank" aria-label="Twitter Icon"><img src="images/twitter-x.svg" alt="Twiter Icon" width="16" height="16" loading="lazy">
+            </a>
+        </div>
+        <div>
+            <div>
+                <h3>Contact Information</h3>
+                <p>6 Holy Family</p>
+                <p>Ogwashi-uku 320107, Anioch LGA</p>
+                <p>Delta State, Nigeria.</p>
+                <p>vijutechofficial@gmail.com</p>
+                <p>(234) 8073-390967</p>
+            </div>
+            <p>
+                &copy; 2025 | VjuTech | Nigeria
+            </p>
+            
+            <p id="last-modification"></p>
+        </div>
+    </footer>
+</body>
+</html>

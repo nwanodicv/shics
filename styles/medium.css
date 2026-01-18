@@ -1,0 +1,22 @@
+@media only screen and (min-width: 38rem) {
+    /*************** HAMBURGER **************/
+    .hamburger {
+        margin-left: 30rem;
+    }
+
+    .hero-section .hero-text {
+        left: 45%;
+        width: 24rem;
+    }
+
+    .profile-with-photo {
+    grid-template-columns: 1fr;
+    text-align: center;
+  }
+
+  .gallery-container {
+    grid-template-columns: 1fr 1fr;
+    
+}
+
+}

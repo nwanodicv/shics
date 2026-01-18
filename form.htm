@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="This is the form page for Sacred Harvasters International School. Sign up to join our community and explore our academic programs, extracurricular activities, and more.">
+    <title>Sacred Harvasters International School Form Page</title>
+    <meta name="author" content="Vjutech LTD"/>
+    <meta name="robots" content="index, follow">
+
+    <!-------------------STYLES--------------------->
+    <link rel="stylesheet" href="Styles/normalize.css">
+    <link rel="stylesheet" href="Styles/form-base.css">
+    <link rel="stylesheet" href="Styles/base.css">
+    <link rel="stylesheet" href="Styles/medium.css">
+    <link rel="stylesheet" href="Styles/large.css">
+    
+
+    <!--------------------SCRIPTS----------------------->
+    <script src="scripts/date.js" defer></script>
+    <script src="scripts/navigation.js" defer></script>
+    <script src="scripts/form-script.js" defer></script>
+  
+    <!--Open Graph-->
+    <meta property="og:title" content="Sacred Harvasters Internation School Form Page">
+    <meta property="og:description" content="This is the form page for Sacred Harvasters International School. Sign up to join our community and explore our academic programs, extracurricular activities, and more.">
+    <meta property="og:image" content="images/harvester.svg">
+    <meta property="og:url" content="https://SacredHarvesterInternationalSchool-homepage.com/">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Sacred Harvasters International School">
+
+    <!--------------FAVICON LINK-------------->
+    <link rel="icon" href="images/harvester.svg" type="image/x-icon" alt="Favicon">
+</head>
+<body>
+    <header>
+        <img src="images/harvester.svg" alt="Logo" loading="lazy">
+        <span>Sacred Harvasters International School</span>
+
+        <!-----------------HAMBURGER---------------->
+        <button aria-label="hamburger button" class="hamburger" id="ham-btn"></button>
+
+        <!---------------NAVIGATION ------------------>
+        <nav id="nav-links" class="nav-links">
+        <ul>
+            <li><a class="home-page" href="index.html">Home</a></li>
+        </ul>
+        </nav>
+
+    </header>
+    <main>
+        <h1>Staff Setup Form</h1>
+        <form method="GET" action="" id="staffForm">
+            <aside>
+                <label for="role">
+                  Register As
+                  <select id="role" required>
+                    <option value="">-- Select Role --</option>
+                    <option value="student">Student</option>
+                    <option value="staff">Staff</option>
+                    <option value="parent">Parent</option>
+                  </select>
+                </label>
+                
+                <label for="firstName">First Name
+                <input name="firstname" id="firstName" type="text" autocomplete="given-name" title="Your First Name" required>
+                </label>
+            
+
+                <label for="lastName">Last Name
+                <input name="lastName" id="lastName" type="text" autocomplete="family-name" title="Your Last Name" required>
+                </label>
+
+                <label for="subjects">Subjects
+                <input name="subjects" id="subjects" type="text" autocomplete="off" title="Enter your Subjects" required>
+                </label>
+            
+
+                <label for="email">Email
+                <input name="email" id="email" type="email" autocomplete="email" title="Your Email" required placeholder="james@gmail.com">
+                </label>
+
+                <label for="password">Password
+                <input name="password" id="password" type="password" autocomplete="new-password" title="Your password" required placeholder="********">
+                </label>
+            
+
+                <label for="phone">Phone
+                <input name="phone" id="phone" type="tel" autocomplete="tel" title="Your Phone Number" required placeholder="+234-807-339-0964">
+                </label>
+            
+
+                <label for="homeaddress">Contact Address
+                <input name="homeaddress" id="homeaddress" type="text" autocomplete="street-address" title="Your Home address" required>
+                </label>
+            
+
+                <label for="timestamp">Timestamp
+                <input name="timestamp" id="timestamp" type="date" required>
+                </label>
+            </aside>
+            
+            <label>
+                <h2>Terms & Conditions</h2>
+                <input type="checkbox" required>
+                (I have read and agreed with the privacy policies)
+            </label>
+
+            <input id="submit-btn" type="submit" value="SetUp Staff Now" class="submit-btn">
+        </form>
+    </main>
+    <footer>
+        <div>
+            <h3>Office Address</h3>
+            <p>25 ogbe-umuokuni</p>
+            <p>Ogwashi-uku 320107, Anioch LGA</p>
+            <p>Delta State, Nigeria.</p>
+            <p>sacredharvesters@gmail.com</p>
+            <p>(234) 07035957395</p>
+            
+        </div>
+        <div class="social-media">
+            <a href="https://www.linkedin.com/in/chimezie-nwanodi-4456aa27a/" target="blank" aria-label="LinkedIn Icon"><img src="images/linkedin.svg" alt="LinkedIn Icon" width="16" height="16" loading="lazy">
+            </a>
+            <a href="https://github.com/" target="blank" aria-label="Github Icon"><img src="images/github.svg" alt="Github Icon" width="16" height="16" loading="lazy">
+            </a>
+            <a href="" target="blank" aria-label="Twitter Icon"><img src="images/twitter-x.svg" alt="Twiter Icon" width="16" height="16" loading="lazy">
+            </a>
+        </div>
+        <div>
+            <div>
+                <h3>Contact Information</h3>
+                <p>6 Holy Family</p>
+                <p>Ogwashi-uku 320107, Anioch LGA</p>
+                <p>Delta State, Nigeria.</p>
+                <p>vijutechofficial@gmail.com</p>
+                <p>(234) 8073-390967</p>
+            </div>
+            <p>
+                &copy; 2025 | VjuTech | Nigeria
+            </p>
+            
+            <p id="last-modification"></p>
+        </div>
+    </footer>
+</body>
+</html>

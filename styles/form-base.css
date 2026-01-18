@@ -1,0 +1,70 @@
+form {
+	display: block;
+	margin-left: 10px;
+
+  h1 {
+    color: #222;
+  }
+  
+
+	label {
+      display: block;
+      font-size: .8rem;
+      color: #222;
+      padding-top: .2rem;
+	}
+
+	input[type=text],
+    input[type=tel],
+    input[type=date],
+    input[type=telephone],
+    input[type=email],
+    input[type=checked],
+    input[type=password],
+    textarea[type=text],
+    select {
+      display: block;
+      margin: .1rem 0 1rem 0 ;
+      padding: .3rem;
+      border: 1px solid #999;
+      border-radius: 4px;
+      border-left-width: 5px;
+      border-left-color:#555;
+      font-size: 1rem;
+      color: #2C2E47;
+      width: 100%;
+    }
+
+	input:required {border-left-color: #800000;}
+    input:focus {border-left-color: #2C2E47; outline:none;}
+    input:required:valid{border-left-color: green;}
+
+    textarea:required {border-left-color: #E07A5F;}
+    textarea:focus {border-left-color:#2C2E47; outline:none;}
+    textarea:required:valid{border-left-color: green;}
+  
+    input[type=submit] {
+      border: none;
+	    width: 100%;
+      text-align: center;
+      background-color: #800000;
+      color: #fff;
+      border-radius: 1rem;
+      padding: .75rem 1.5rem;
+      margin: 2rem 0;
+      font-size: 1.2rem;
+      -webkit-appearance: none;
+      appearance: none;
+      cursor: pointer;
+    }
+
+    fieldset{
+      margin: 20px 10px 20px 0;
+      background-color: #eee;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      width: 100%;
+    }
+
+}
+
