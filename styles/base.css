@@ -30,18 +30,17 @@ header {
     display: grid;
     grid-template-columns: 24px auto auto;
     padding: 5px 0 5px 10px;
-    background-color: #a10202;
     align-items: end;
     border-bottom: solid 1px #222;
     column-gap: 6px;
     color: #fff;
     background: linear-gradient(
     to right,
-    #5a0f14 0%,      /* dark left */
-    #8b1e24 25%,     /* lighter */
+    #920101 0%,      /* dark left */
+    #da3131 25%,     /* lighter */
     #c94a50 50%,     /* lightest center */
-    #8b1e24 75%,     /* lighter */
-    #5a0f14 100%     /* dark right */
+    #da3131 75%,     /* lighter */
+    #920101 100%     /* dark right */
   );
 }
 
