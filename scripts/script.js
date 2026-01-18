@@ -16,6 +16,11 @@ closeDialogButton.addEventListener('click', () => {
     dialogBox.close();
 });
 
+// DOM elements for "Go to Dashboard" button
+const goToDashboard = document.querySelector('.hero-signup');
+goToDashboard.addEventListener('click', () => {
+    window.location.href = "form.html"
+})
 // DOM elements for "What to Do" dialog box
 const openWhatToDoButton = document.querySelector('#open-whatToDo', 'button');
 const whatToDoDialogBox = document.querySelector('#whattodo-dialogbox', 'dialog');

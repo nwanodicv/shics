@@ -211,23 +211,21 @@ li .home-page { /****Way finding ****/
 
 .hero-section .hero-signup {
     position: absolute;
-    bottom: 20%;            /* Move up from bottom */
-    left: 27%;
+    top: 50%;
+    bottom: 10%;            /* Move up from bottom */
+    left: 45%;
     transform: translateX(-50%);
-    opacity: 100%;
-    background: #800000;;
-    color: white;
-    padding: 0.8rem 1.6rem;
-    font-size: 1.2rem;
+    color: #800000;
+    padding: 0.8rem 1rem;
+    font-size: 0.8rem;
     text-decoration: none;
-    border-radius: 6px;
-    font-weight: 600;
-    box-shadow: 0 4px 14px rgba(0,0,0,0.25);
+    font-weight: bold;
+    cursor: pointer;
 }
 
 .hero-section .hero-text {
     position: absolute;
-    top: 50%;
+    top: 0%;
     bottom: 27%;            /* Move up from bottom */
     left: 45%;
     font-family:'Times New Roman', Times, serif;

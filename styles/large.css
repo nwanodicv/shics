@@ -42,6 +42,11 @@
         width: 35rem;
     }
 
+    .hero-section .hero-signup {
+        top: 100%;
+        font-size: 0.9rem;
+    }
+
     .my-dialog {
         width: 50rem;
         height: 25rem;
@@ -137,6 +142,12 @@
     .admiss-sec-container > img {
         width: 50rem;
         margin: 0 0;
+    }
+
+    /*form section*/
+    form {
+	    margin-left: 26rem;
+        width: 30rem;
     }
     
 

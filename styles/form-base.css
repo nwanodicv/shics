@@ -1,6 +1,7 @@
 form {
 	display: block;
-	margin-left: 10px;
+	margin-left: 2px;
+  width: 100%;
 
   h1 {
     color: #222;
