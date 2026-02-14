@@ -1,46 +1,75 @@
 /**
  * login.js
- * -----------------------------
- * Handles login for Admin, Staff, Student, and Parent.
- * Stores authenticated user in localStorage.
+ * ---------------------------------------
+ * Handles login for:
+ * - Admin (hard-coded)
+ * - Staff / Student / Parent (Firebase Auth)
  */
 
+import { auth } from "./firebase.js";
+import {
+  signInWithEmailAndPassword
+} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+
+import {
+  getFirestore,
+  doc,
+  getDoc
+} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+const db = getFirestore();
+
+/* ================= ADMIN CREDENTIALS ================= */
 const ADMIN_EMAIL = "sacredharvesters@gmail.com";
-const ADMIN_PASSWORD = "admin111";
+const ADMIN_PASSWORD = "@Myadmin1"; // change later
 
-window.staffLogin = function (email, password) {
+/* ================= MAIN LOGIN FUNCTION ================= */
+async function staffLogin(email, password) {
 
-  const users = JSON.parse(localStorage.getItem("users")) || [];
-
-  /* ADMIN */
+  /* ---------- ADMIN LOGIN ---------- */
   if (email === ADMIN_EMAIL && password === ADMIN_PASSWORD) {
-    localStorage.setItem("currentUser", JSON.stringify({
+    const adminUser = {
       role: "admin",
       email
-    }));
+    };
+
+    localStorage.setItem("currentUser", JSON.stringify(adminUser));
     window.location.href = "admin.html";
     return;
   }
 
-  /* AUTH USER */
-  const user = users.find(
-    u => u.email === email && u.password === password
-  );
+  /* ---------- FIREBASE LOGIN ---------- */
+  const cred = await signInWithEmailAndPassword(auth, email, password);
+  const user = cred.user;
 
-  if (!user) {
-    alert("Invalid login credentials.");
-    return;
+  /* ---------- GET USER ROLE FROM FIRESTORE ---------- */
+  const userRef = doc(db, "users", user.uid);
+  const snap = await getDoc(userRef);
+
+  if (!snap.exists()) {
+    throw new Error("User role not found");
   }
 
+  const userData = snap.data();
+
+  /* ---------- STORE SESSION ---------- */
   localStorage.setItem("currentUser", JSON.stringify({
-    id: user.id,
-    role: user.role,
+    uid: user.uid,
+    role: userData.role,
     email: user.email
   }));
 
-  /* ROUTE BY ROLE */
-  if (user.role === "staff") window.location.href = "staff.html";
-  else if (user.role === "student") window.location.href = "student.html";
-  else if (user.role === "parent") window.location.href = "parent.html";
-  else alert("Unknown role");
-};
+  /* ---------- REDIRECT ---------- */
+  if (userData.role === "student") {
+    window.location.href = "student.html";
+  } else if (userData.role === "staff") {
+    window.location.href = "staff.html";
+  } else if (userData.role === "parent") {
+    window.location.href = "parent.html";
+  } else {
+    throw new Error("Unknown role");
+  }
+}
+
+/* ================= EXPORT ================= */
+export { staffLogin };

@@ -1,0 +1,41 @@
+{
+    "details": [
+        {
+            "image": "images/propraitress.webp",
+            "name": "Headmaster's Welcome "
+        },
+        {
+            "image": "images/school-guild.webp",
+            "name": "School Guild"
+        },
+        {
+            "image": "images/vision-value.webp",
+            "name": "Vision & Value"
+        },
+        {
+            "image": "images/propraitress.webp",
+            "name": "History & Heritage "
+        },
+        {
+            "image": "images/propraitress.webp",
+            "name": "Work With Us "
+        },
+        {
+            "image": "images/propraitress.webp",
+            "name": "Fees "
+        },
+        {
+            "image": "images/propraitress.webp",
+            "name": "Choristers "
+        },
+        {
+            "image": "images/propraitress.webp",
+            "name": "Staff "
+        },
+        {
+            "image": "images/propraitress.webp",
+            "name": "Gallery"
+        }
+    ]
+}
+

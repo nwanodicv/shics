@@ -4,28 +4,42 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Welcome to the Sacred Harvasters International School Home Page. Explore our academic programs, extracurricular activities, and community events. Join us in fostering a nurturing mind environment and cultivating excellence for holistic education and personal growth.">
-    <title>SHICS Home Page</title>
+    <title>Sacred Harvasters International School Home Page</title>
     <meta name="author" content="Vjutech LTD"/>
     <meta name="robots" content="index, follow">
 
     <!-------------------STYLES--------------------->
-    <link rel="stylesheet" href="styles/normalize.css">
-    <link rel="stylesheet" href="styles/form-base.css">
-    <link rel="stylesheet" href="styles/about-base.css">
-    <link rel="stylesheet" href="styles/medium.css">
-    <link rel="stylesheet" href="styles/about-us-large.css">
+    <link rel="stylesheet" href="../styles/normalize.css">
+    <link rel="stylesheet" href="../styles/admin-base.css">
+    <link rel="stylesheet" href="../styles/form-base.css">
+    <link rel="stylesheet" href="../styles/medium.css">
+    <link rel="stylesheet" href="../styles/large.css">
+    <link rel="stylesheet" href="../styles/notification.css">
     
 
     <!--------------------SCRIPTS----------------------->
-    <script src="scripts/date.js" defer></script>
-    <script src="scripts/navigation.js" defer></script>
-    <script src="scripts/about.js" defer></script>
+    <script src="../scripts/date.js" defer></script>
+    <script src="../scripts/navigation.js" defer></script>
+    <script src="../scripts/login.js" defer></script>
+    <script src="../scripts/dialogbox.js" defer></script>
+    <script src="../scripts/auth.js" defer></script>
+    <script src="../scripts/notifications-core.js" defer></script>
+    <script src="../scripts/admin-dashboard.js" defer></script>
+    <script src="../scripts/admin-notifications.js" defer></script>
+    <script src="../scripts/notifications.js" defer></script>
+    <script src="../scripts/notification-bell.js" defer></script>
+    <script src="../scripts/admin-notifications.js" defer></script>
+    <script type="module" src="../scripts/admin-lessons.js"></script>
+
     
-    <!------------------META TAGS FOR SOCIAL MEDIA-------------->
+    <script src="scripts/roles.js" defer></script>
+    <script src="scripts/route-guard.js" defer></script>
+    <script src="scripts/utils/report-utils.js" defer></script>
+  
     <!--Open Graph-->
     <meta property="og:title" content="Sacred Harvasters Internation School Home Page">
     <meta property="og:description" content="Welcome to the Sacred Arvasters International School Home Page. Explore our academic programs, extracurricular activities, and community events. Join us in fostering a nurturing mind environment and cultivating excellence for holistic education and personal growth.">
-    <meta property="og:image" content="images/shics_favicon.svg">
+    <meta property="og:image" content="images/harvester.svg">
     <meta property="og:url" content="https://Chimezie-homepage.com/">
     <meta property="og:type" content="website">
     <meta property="og:site_name" content="Sacred Harvasters International School">
@@ -47,18 +61,18 @@
         <!---------------NAVIGATION ------------------>
         <nav id="nav-links" class="nav-links">
         <ul>
-            <li><a class="home-page" href="index.html">Home</a></li>
+            <li><a class="home-page" href="#">Home</a></li>
             <li><a class="about-page" href="about-us.html">About Us</a></li>
-            <li><a class="#" href="#">Students</a></li>
+            <li><a class="#" href="#">Guardians</a></li>
             <li>
                 <a class="#" href="./admission/admission.html">Admission</a>
             </li>
             <li><a class="staff-dashboard-page" href="#">Sign In</a></li>
             <li class="message-box">
                 <label for="message">
-                    <img src="images/envelope.svg" alt="Message Icon" loading="lazy">
+                    <img src="../images/envelope.svg" alt="Message Icon" loading="lazy">
+                    Messages
                 </label>
-                <a id="message" name="message" href="#">Message</a>
             </li>
             <li><a href="./contact/contact-us.html">Contact</a></li>
         </ul>
@@ -66,60 +80,31 @@
 
     </header>
     <main>
-        <h1>About Us</h1>
-        <section class="hero-section hero">
-            <img class="hero-img" src="images/about-hero-img.webp" alt="Sacred Harvesters Int'l School Hero Image" loading="lazy">
-            <img class="hero-img" src="images/ttttttttttt.webp" alt="Sacred Harvesters Int'l School Hero Image" loading="lazy">
-            <img class="hero-img" src="images/group-diverse-children.webp" alt="Sacred Harvesters Int'l School Hero Image" loading="lazy">
-            <span class="hero-text"><div><strong>Welcome to Sacred Harvesters Int'L</strong></div>
-            <div>__ Christian School __</div>
-            <div class="hero-div3">Empowering Education with Faith & Excellence</div>
-            <h3 class="hero-signup" aria-label="Go to dashboard">Go to dashboard ></h3>
+        <section class="first-screen">
+          <!--Navigation Submenu-->
+            <nav class="side-bar">
+              <ul>
+                  <li><a class="#" href="staff-management.html">Staff Management</a></li>
+                  <li><a class="#" href="#">Student Management</a></li>
+                  <li><a class="#" href="admin-results.html">Results</a></li>
+                  <li><a class="#" href="review-lessons.html">Review Lessons</a></li>
+                  <li><a class="#" href="reports.html">Reports</a></li>
+              </ul>
+            </nav>
         </section>
-        <!----------- Screen Section--------------->
-        <section class="screen-grid">
-            <aside class="screen-container">
-                <!------- First Screen ------->
-                <aside class="first-screen">
-                    <h2 class="about-us">ABOUT US</h2>
-                    <p>HEADMASTER'S WELCOME</p>
-                    <p>SCHOOL GUILD</p>
-                    <p>HISTORY & HERITAGE</p>
-                    <p>VISION & VALUE</p>
-                    <p>GALLERY</p>
-                    <p>FEES</p>
-                    <p>STAFF</p>
-                    <p>RECENT ANNOUNCEMENT</p>
-                    <p>CRECHE KIDS ENROLLMENT</p>
-                    <p>UPCOMING EVENTS</p>
-                    <p>MIDTERM EXAM SCHEDULE</p>
-                    <P>SCHOOL FIELD TRIP TO THE MUSEUM</P>
-                    <P>CLASSES</P>
-                    <p>ADMISSION</p>
-                </aside>
-                <aside class="contact-us">
-                    <h2>Contact Us</h2>
-                    <p>Sacred Harvester Int'l Christian School, ogbe-umuokuni, Ogwashi-uku</p>
-                    <p>sacredharvesters@gmail.com</p>
-                    <p>+2347055839781</p>
-                </aside>
-            </aside>
-            <aside class="screen-container second-screen-container">
-                 <!------- Second Screen ------->
-                
-            </aside>
-             <!------- Third Screen ------->
-            <aside class="screen-container third-screen-container">
-                <aside class="third-screen stagger">
-                    <img src="images/potriate-1.webp" alt="HeadMaster" loading="lazy">
-                    <img src="images/potriate-2.webp" alt="HeadMaster" loading="lazy">
-                    <img src="images/potriate-3.webp" alt="HeadMaster" loading="lazy">
-                    <img src="images/potriate-4.webp" alt="HeadMaster" loading="lazy">
-                </aside>
-                <aside class="third-screen">
-                    <img src="images/propraitress.webp" alt="HeadMaster" loading="lazy">
-                </aside>
-            </aside>
+        <section>
+            <section>
+              <h1>Admin</h1>
+            </section>
+            <section class="card">
+              <h2>Lesson Plans (Admin Only)</h2>
+              <div id="lessonPlansList"></div>
+            </section>
+    
+            <section class="card">
+              <h2>Lesson Notes (Visible to Students)</h2>
+              <div id="lessonNotesList"></div>
+            </section>
         </section>
     </main>
     <footer>

@@ -16,11 +16,6 @@ closeDialogButton.addEventListener('click', () => {
     dialogBox.close();
 });
 
-// DOM elements for "Go to Dashboard" button
-const goToDashboard = document.querySelector('.hero-signup');
-goToDashboard.addEventListener('click', () => {
-    window.location.href = "form.html"
-})
 // DOM elements for "What to Do" dialog box
 const openWhatToDoButton = document.querySelector('#open-whatToDo', 'button');
 const whatToDoDialogBox = document.querySelector('#whattodo-dialogbox', 'dialog');
@@ -66,7 +61,7 @@ const galleryContainer = document.getElementById('gallery-container');
 
 let innerHTML = ``;
 gallery.forEach((item) => {
-    console.log(item);
+    //console.log(item);
     innerHTML += `
     <aside class="gallery-card">
       <img class="gallery-img" src="${item.image}" alt="${item.name}" loading="lazy" class="product-img">

@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Welcome to the Sacred Harvasters International School Home Page. Explore our academic programs, extracurricular activities, and community events. Join us in fostering a nurturing mind environment and cultivating excellence for holistic education and personal growth.">
-    <title>Parent-dashboard</title>
+    <title>SHICS Home Page</title>
     <meta name="author" content="Vjutech LTD"/>
     <meta name="robots" content="index, follow">
 
@@ -12,22 +12,17 @@
     <link rel="stylesheet" href="styles/normalize.css">
     <link rel="stylesheet" href="styles/form-base.css">
     <link rel="stylesheet" href="styles/base.css">
-    <link rel="stylesheet" href="styles/medium.css">
     <link rel="stylesheet" href="styles/large.css">
     
 
     <!--------------------SCRIPTS----------------------->
-    <script type="module" src="scripts/firebase.js"></script>
-    <script type="module" src="scripts/login.js"></script>
     <script src="scripts/date.js" defer></script>
     <script src="scripts/navigation.js" defer></script>
-    <script src="scripts/auth.js" defer></script>
-    <script src="scripts/notifications.js" defer></script>
-    <script src="scripts/notification-bell.js" defer></script>
-    <script type="module" src="scripts/parent-dashboard.js"></script>
-    <script type="module" src="scripts/report-card.js"></script>
-
-  
+    <script type="module" src="scripts/script.js"></script>
+    <script src="scripts/login.js" defer></script>
+    <script src="scripts/dialogbox.js" defer></script>
+    
+    <!------------------META TAGS FOR SOCIAL MEDIA-------------->
     <!--Open Graph-->
     <meta property="og:title" content="Sacred Harvasters Internation School Home Page">
     <meta property="og:description" content="Welcome to the Sacred Arvasters International School Home Page. Explore our academic programs, extracurricular activities, and community events. Join us in fostering a nurturing mind environment and cultivating excellence for holistic education and personal growth.">
@@ -42,7 +37,10 @@
 <body>
     <header>
         <img src="images/harvester.svg" alt="Logo" loading="lazy">
-        <span>SHICS</span>
+        <span>
+            <div><strong>Sacred Harvesters Int'L</strong></div>
+            <div class="my-span">__ Christian School __</div>
+        </span>
 
         <!-----------------HAMBURGER---------------->
         <button aria-label="hamburger button" class="hamburger" id="ham-btn"></button>
@@ -50,45 +48,26 @@
         <!---------------NAVIGATION ------------------>
         <nav id="nav-links" class="nav-links">
         <ul>
-            <li><a class="home-page" href="admin.html">Home</a></li>
+            <li><a class="home-page" href="#">Home</a></li>
+            <li><a class="about-page" href="about-us.html">About Us</a></li>
+            <li><a class="#" href="#">Students</a></li>
+            <li>
+                <a class="#" href="#">Admission</a>
+            </li>
             <li><a class="staff-dashboard-page" href="#">Sign In</a></li>
+            <li class="message-box">
+                <label for="message">
+                    <img src="images/envelope.svg" alt="Message Icon" loading="lazy">
+                </label>
+                <a id="message" name="message" href="#">Message</a>
+            </li>
         </ul>
         </nav>
 
     </header>
-    <!--Navigation Submenu-->
-    <nav id="nav-links" class="nav-links">
-      <ul>
-          <li><a class="#" href="parent.html">Dashboard</a></li>
-          <li><a class="#" href="parent-attendance.html">Child Attendance</a></li>
-          <li><a class="#" href="parent-result.html">Child Result</a></li>
-          <li><a class="#" href="#">Logout</a></li>
-      </ul>
-
-<!-- MAIN CONTENT -->
-<main class="main-content">
-    <h1>Parent Dashboard</h1>
-    <h2 id="parentWelcome">Welcome, Parent</h2>
-
-    <section class="notifications-section">
-      <aside>
-        <h2>Notifications</h2>
-        <div id="notifications"></div>
-      </aside>
-    </section>
-    
-   <section class="parent-dashboard">
-        <h2>My Children Information & Reports</h2>
-        <div id="childrenList"></div>
-        <div id="reportCardView"></div>
-    
-    <!--section>
-      <h3>Your Linked Children</h3>
-      <ul id="linkedChildren"></ul>
-    </section-->
-   </section>
-
-</main>
+    <main>
+        <h2>Fill Your Bio</h2>
+    </main>
     <footer>
         <div>
             <h3>Office Address</h3>
@@ -121,6 +100,16 @@
             </p>
             
             <p id="last-modification"></p>
+        </div>
+        <div clas="privacy-policy">
+            <div>
+                <p>
+                    &copy; 2026 | Sacred Harvesters Christian School | All Right Reserved
+                </p>
+            </div>
+            <div>
+                <p>Privacy Policy | Contact Us</p>
+            </div>
         </div>
     </footer>
 </body>

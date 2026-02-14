@@ -16,11 +16,14 @@
     
 
     <!--------------------SCRIPTS----------------------->
+    <script type="module" src="scripts/firebase.js"></script>
+    <script type="module" src="scripts/login.js"></script>
+    <script type="module" src="scripts/dialogbox.js"></script>
     <script src="scripts/date.js" defer></script>
     <script src="scripts/navigation.js" defer></script>
     <script type="module" src="scripts/script.js"></script>
-    <script src="scripts/login.js" defer></script>
-    <script src="scripts/dialogbox.js" defer></script>
+    
+
     
     <!------------------META TAGS FOR SOCIAL MEDIA-------------->
     <!--Open Graph-->
@@ -50,17 +53,18 @@
         <ul>
             <li><a class="home-page" href="#">Home</a></li>
             <li><a class="about-page" href="about-us.html">About Us</a></li>
-            <li><a class="#" href="#">Students</a></li>
+            <li><a class="#" href="#">Guardians</a></li>
             <li>
-                <a class="#" href="#">Admission</a>
+                <a class="#" href="./admission/admission.html">Admission</a>
             </li>
-            <li><a class="staff-dashboard-page" href="form.html">Sign In</a></li>
+            <li><a class="staff-dashboard-page" href="#">Sign In</a></li>
             <li class="message-box">
                 <label for="message">
                     <img src="images/envelope.svg" alt="Message Icon" loading="lazy">
+                    Messages
                 </label>
-                <a id="message" name="message" href="#">Message</a>
             </li>
+            <li><a href="./contact/contact-us.html">Contact</a></li>
         </ul>
         </nav>
 
@@ -116,7 +120,7 @@
         <section class="announcement-events">
             <aside class="an-grid">
                 <aside class="an-container">
-                    <h3>Rencent Announcement</h3>
+                    <h3>Recent Announcement</h3>
                     <aside class="announcement-content">
                         <img src="images/users-medical.svg" alt="icon" loading="lazy">
                         <p class="ptm-parag">Parent-teacher Meeting</p>
@@ -323,48 +327,44 @@
             <a href="form.html" class="admissions-btn" aria-label="Apply Now for Admissions">Apply Now</a>
     </main>
     <footer>
-        <div>
-            <h3>Office Address</h3>
-            <p>25 ogbe-umuokuni</p>
-            <p>Ogwashi-uku 320107, Anioch LGA</p>
-            <p>Delta State, Nigeria.</p>
-            <p>sacredharvesters@gmail.com</p>
-            <p>(234) 07035957395</p>
-            
-        </div>
-        <div class="social-media">
-            <a href="https://www.linkedin.com/in/chimezie-nwanodi-4456aa27a/" target="blank" aria-label="LinkedIn Icon"><img src="images/linkedin.svg" alt="LinkedIn Icon" width="16" height="16" loading="lazy">
-            </a>
-            <a href="https://github.com/" target="blank" aria-label="Github Icon"><img src="images/github.svg" alt="Github Icon" width="16" height="16" loading="lazy">
-            </a>
-            <a href="" target="blank" aria-label="Twitter Icon"><img src="images/twitter-x.svg" alt="Twiter Icon" width="16" height="16" loading="lazy">
-            </a>
-        </div>
-        <div>
-            <div>
+        <section>
+            <aside class="sacred-contact">
+                <h3>Office Address</h3>
+                <p>25 ogbe-umuokuni</p>
+                <p>Ogwashi-uku 320107, Anioch LGA</p>
+                <p>Delta State, Nigeria.</p>
+                <p>sacredharvesters@gmail.com</p>
+                <p>(234) 07055839781</p>
+                <div class="social-media">
+                <a href="https://www.linkedin.com/in/chimezie-nwanodi-4456aa27a/" target="blank" aria-label="LinkedIn Icon"><img src="images/linkedin.svg" alt="LinkedIn Icon" width="16" height="16" loading="lazy">
+                </a>
+                <a href="https://github.com/" target="blank" aria-label="Github Icon"><img src="images/github.svg" alt="Github Icon" width="16" height="16" loading="lazy">
+                </a>
+                <a href="" target="blank" aria-label="Twitter Icon"><img src="images/twitter-x.svg" alt="Twiter Icon" width="16" height="16" loading="lazy">
+                </a>
+            </aside>
+        </section>
+        <section class="vjt-service">
+            <aside>
                 <h3>Contact Information</h3>
                 <p>6 Holy Family</p>
                 <p>Ogwashi-uku 320107, Anioch LGA</p>
                 <p>Delta State, Nigeria.</p>
-                <p>vijutechofficial@gmail.com</p>
+                <p>vjutechofficial@gmail.com</p>
                 <p>(234) 8073-390967</p>
-            </div>
+            </aside>
             <p>
                 &copy; 2025 | VjuTech | Nigeria
             </p>
             
             <p id="last-modification"></p>
-        </div>
-        <div clas="privacy-policy">
-            <div>
-                <p>
-                    &copy; 2026 | Sacred Harvesters Christian School | All Right Reserved
-                </p>
-            </div>
-            <div>
-                <p>Privacy Policy | Contact Us</p>
-            </div>
-        </div>
+        </section>
     </footer>
+    <section>
+        <aside class="privacy-policy">
+            <p class="p0">&copy; Copy Right | Sacred Harvesters Int'l Christian School | All Right Reserve</p>
+            <p class="p" window.location.href='contact/contact-us.html'>Contact Us</p>
+        </aside>
+    </section>
 </body>
 </html>

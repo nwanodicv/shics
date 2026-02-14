@@ -1,0 +1,9 @@
+{
+    "admissionOfficer": [
+        {
+            "name": "Perkin's Peters",
+            "image": "../images/perkins-photo.jpg",
+            "role": "Admission Manager"
+        }
+    ]
+}
