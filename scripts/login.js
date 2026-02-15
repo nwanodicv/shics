@@ -34,7 +34,7 @@ async function staffLogin(email, password) {
     };
 
     localStorage.setItem("currentUser", JSON.stringify(adminUser));
-    window.location.href = "admin.html";
+    window.location.href = "../admin/admin.html";
     return;
   }
 
