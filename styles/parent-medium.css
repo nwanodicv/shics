@@ -1,0 +1,93 @@
+/* 
+ * Parent Dashboard - Medium Screen (Tablet)
+ * Media Query: min-width: 768px
+ */
+
+@media (min-width: 768px) {
+
+    /************* MAIN ****************/
+    main {
+        padding: 30px 40px;
+        max-width: 1200px;
+        margin: 0 auto;
+
+        & h1 {
+            font-size: 2.2rem;
+            margin-bottom: 40px;
+        }
+
+        & h2 {
+            font-size: 1.4rem;
+        }
+    }
+
+    /************* PARENT WELCOME ****************/
+    #parentWelcome {
+        font-size: 1.4rem;
+        margin-bottom: 40px;
+    }
+
+    /************* NOTIFICATIONS SECTION ****************/
+    .notifications-section {
+        margin-bottom: 40px;
+
+        & aside {
+            padding: 25px;
+
+            & #notifications {
+                display: grid;
+                grid-template-columns: repeat(2, 1fr);
+                gap: 15px;
+
+                & > div {
+                    padding: 15px;
+                }
+            }
+        }
+    }
+
+    /************* PARENT DASHBOARD SECTION ****************/
+    .parent-dashboard {
+        padding: 30px;
+
+        & #childrenList {
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+        }
+
+        & .child-card {
+            padding: 22px;
+
+            & h3 {
+                font-size: 1.2rem;
+            }
+
+            & button {
+                padding: 12px 24px;
+                font-size: 1rem;
+            }
+        }
+
+        & #reportCardView {
+            padding: 25px;
+
+            & ul {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 15px;
+
+                & li {
+                    padding: 20px;
+                }
+            }
+        }
+    }
+
+    /************* DOWNLOAD BUTTON ****************/
+    #downloadBtn {
+        max-width: 400px;
+        padding: 16px 32px;
+        font-size: 1.05rem;
+        margin: 40px auto;
+    }
+
+}

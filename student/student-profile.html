@@ -9,24 +9,23 @@
     <meta name="robots" content="index, follow">
 
     <!-------------------STYLES--------------------->
-    <link rel="stylesheet" href="styles/normalize.css">
-    <link rel="stylesheet" href="styles/student-base.css">
-    <link rel="stylesheet" href="styles/medium.css">
-    <link rel="stylesheet" href="styles/large.css">
-    <link rel="stylesheet" href="styles/notification.css">
+    <link rel="stylesheet" href="../styles/normalize.css">
+    <link rel="stylesheet" href="../styles/student-base.css">
+    <link rel="stylesheet" href="../styles/student-medium.css">
+    <link rel="stylesheet" href="../styles/student-large.css">
+    <link rel="stylesheet" href="../styles/notification.css">
     
     
 
     <!--------------------SCRIPTS----------------------->
-    <script type="module" src="scripts/firebase.js"></script>
-    <script type="module" src="scripts/login.js"></script>
-    <script src="scripts/date.js" defer></script>
-    <script src="scripts/navigation.js" defer></script>
-    <script src="scripts/auth.js" defer></script>
-    <script src="scripts/student-dashboard.js" defer></script>
-    <script src="scripts/lesson-notes.js" defer></script>
-    <script type="module" src="scripts/student-results.js"></script>
-    <script type="module" src="scripts/student-lessons.js" defer></script>
+    <script type="module" src="../scripts/firebase.js"></script>
+    <script type="module" src="../scripts/login.js"></script>
+    <script src="../scripts/date.js" defer></script>
+    <script src="../scripts/navigation.js" defer></script>
+    <script type="module" src="../scripts/student-dashboard.js"></script>
+    <script src="../scripts/lesson-notes.js" defer></script>
+    <script type="module" src="../scripts/student-results.js"></script>
+    <script type="module" src="../scripts/student-lessons.js"></script>
 
   
     <!--Open Graph-->
@@ -41,9 +40,12 @@
     <link rel="icon" href="images/harvester.svg" type="image/x-icon" alt="Favicon">
 </head>
 <body>
-    <header>
+     <header>
         <img src="images/harvester.svg" alt="Logo" loading="lazy">
-        <span>SHICS</span>
+        <span>
+            <div><strong>Sacred Harvesters Int'L</strong></div>
+            <div class="my-span">__ Christian School __</div>
+        </span>
 
         <!-----------------HAMBURGER---------------->
         <button aria-label="hamburger button" class="hamburger" id="ham-btn"></button>
@@ -51,27 +53,41 @@
         <!---------------NAVIGATION ------------------>
         <nav id="nav-links" class="nav-links">
         <ul>
-            <li><a class="home-page" href="index.html">Home</a></li>
+            <li><a class="home-page" href="#">Home</a></li>
+            <li><a class="about-page" href="about-us.html">About Us</a></li>
+            <li><a class="#" href="#">Guardians</a></li>
+            <li>
+                <a class="#" href="./admission/admission.html">Admission</a>
+            </li>
             <li><a class="staff-dashboard-page" href="#">Sign In</a></li>
+            <li class="message-box">
+                <label for="message">
+                    <img src="../images/envelope.svg" alt="Message Icon" loading="lazy">
+                    Messages
+                </label>
+            </li>
+            <li><a href="./contact/contact-us.html">Contact</a></li>
         </ul>
         </nav>
 
     </header>
 
     <!--Navigation Submenu-->
-     <nav id="nav-links" class="nav-links">
+     <nav class="sub-menu">
       <ul>
           <li><a class="" href="student.html">Dashboard</a></li>
           <li><a class="" href="student-attendance.html">Attendance</a></li>
-          <li><a class="" href="student-lessons.html">Lesson</a></li>
+          <li><a class="" href="student-lessons.html">Lesson Note</a></li>
           <li><a class="" href="student-results.html">Results</a></li>
+          <li><a class="" href="student-fees.html">Fees</a></li>
+          <li><a class="" href="student-transcript.html">Transcript</a></li>
           <li><a class="" href="student-profile.html">Profile</a></li>
       </ul>
     </nav>
     
 
     <main>
-        <h1>Student Dashboard</h1>
+        <h1>Dashboard</h1>
         <p id="studentWelcome"></p>
         <section class="student-profile">
           <h3>My Profile</h3>
@@ -106,52 +122,47 @@
             <p><strong>Address:</strong> <span id="profileAddress"></span></p>
           </div>
         </section>
-
-        
-        <section>
-          <h3>My Attendance</h3>
-          <ul id="attendanceList"></ul>
-        </section>
-
-        <section>
-          <h3>Lesson Notes</h3>
-          <div id="lessonNotes" class="lesson-grid"></div>
-        </section>
         
     </main>
     <footer>
-        <div>
-            <h3>Office Address</h3>
-            <p>25 ogbe-umuokuni</p>
-            <p>Ogwashi-uku 320107, Anioch LGA</p>
-            <p>Delta State, Nigeria.</p>
-            <p>sacredharvesters@gmail.com</p>
-            <p>(234) 07035957395</p>
-            
-        </div>
-        <div class="social-media">
-            <a href="https://www.linkedin.com/in/chimezie-nwanodi-4456aa27a/" target="blank" aria-label="LinkedIn Icon"><img src="images/linkedin.svg" alt="LinkedIn Icon" width="16" height="16" loading="lazy">
-            </a>
-            <a href="https://github.com/" target="blank" aria-label="Github Icon"><img src="images/github.svg" alt="Github Icon" width="16" height="16" loading="lazy">
-            </a>
-            <a href="" target="blank" aria-label="Twitter Icon"><img src="images/twitter-x.svg" alt="Twiter Icon" width="16" height="16" loading="lazy">
-            </a>
-        </div>
-        <div>
-            <div>
+        <section>
+            <aside class="sacred-contact">
+                <h3>Office Address</h3>
+                <p>25 ogbe-umuokuni</p>
+                <p>Ogwashi-uku 320107, Anioch LGA</p>
+                <p>Delta State, Nigeria.</p>
+                <p>sacredharvesters@gmail.com</p>
+                <p>(234) 07055839781</p>
+                <div class="social-media">
+                <a href="https://www.linkedin.com/in/chimezie-nwanodi-4456aa27a/" target="blank" aria-label="LinkedIn Icon"><img src="images/linkedin.svg" alt="LinkedIn Icon" width="16" height="16" loading="lazy">
+                </a>
+                <a href="https://github.com/" target="blank" aria-label="Github Icon"><img src="images/github.svg" alt="Github Icon" width="16" height="16" loading="lazy">
+                </a>
+                <a href="" target="blank" aria-label="Twitter Icon"><img src="images/twitter-x.svg" alt="Twiter Icon" width="16" height="16" loading="lazy">
+                </a>
+            </aside>
+        </section>
+        <section class="vjt-service">
+            <aside>
                 <h3>Contact Information</h3>
                 <p>6 Holy Family</p>
                 <p>Ogwashi-uku 320107, Anioch LGA</p>
                 <p>Delta State, Nigeria.</p>
-                <p>vijutechofficial@gmail.com</p>
+                <p>vjutechofficial@gmail.com</p>
                 <p>(234) 8073-390967</p>
-            </div>
+            </aside>
             <p>
                 &copy; 2025 | VjuTech | Nigeria
             </p>
             
             <p id="last-modification"></p>
-        </div>
+        </section>
     </footer>
+    <section>
+        <aside class="privacy-policy">
+            <p class="p0">&copy; Copy Right | Sacred Harvesters Int'l Christian School | All Right Reserve</p>
+            <p class="p" window.location.href='contact/contact-us.html'>Contact Us</p>
+        </aside>
+    </section>
 </body>
 </html>

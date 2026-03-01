@@ -1,432 +1,571 @@
 /**
  * admin-dashboard.js
- * --------------------------------------------------
- * Handles all admin operations:
- * - Authentication (Admin only)
- * - Staff management & attendance
- * - Student & parent visibility
- * - Result & attendance controls
- * --------------------------------------------------
- */
+ * ---------------------------------------------------
+ * Professional Admin Dashboard
+ * - Firebase Auth Guard (admin only)
+ * - Loads users from Firestore
+ * - Parent ↔ Student linking
+ * - Student listing
+ * - Professional Result Publishing (subcollection)
+ * ---------------------------------------------------
+ */ 
 
-document.addEventListener("DOMContentLoaded", () => {
+import { auth, db } from "./firebase.js";
 
-  /* ==================================================
-     AUTH (ADMIN ONLY)
-  ================================================== */
-  const currentUser = JSON.parse(localStorage.getItem("currentUser"));
-  if (!currentUser || currentUser.role !== "admin") {
-    alert("Admins only");
-    window.location.href = "index.html";
+import {
+  collection,
+  getDocs,
+  updateDoc,
+  arrayUnion,
+  doc,
+  getDoc,
+  addDoc,
+  serverTimestamp,
+  query,
+  where,
+  orderBy
+} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+import {
+  onAuthStateChanged
+} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+
+import {
+  setDoc
+} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+/* ==================================================
+   AUTH GUARD (FIREBASE VERSION — NO LOCALSTORAGE)
+================================================== */
+
+onAuthStateChanged(auth, async (user) => {
+
+  if (!user) {
+    window.location.href = "../index.html";
     return;
   }
 
-  /* ==================================================
-     LOAD STORAGE (SINGLE SOURCE OF TRUTH)
-  ================================================== */
-  const users = JSON.parse(localStorage.getItem("users")) || [];
-  const parents = JSON.parse(localStorage.getItem("parents")) || [];
-  const students = JSON.parse(localStorage.getItem("students")) || [];
-  let staffList = JSON.parse(localStorage.getItem("myStaff")) || [];
+  // Fetch user role from Firestore
+  const userDoc = await getDoc(doc(db, "users", user.uid));
 
-  /* ==================================================
-     STAFF SYNC (USERS → myStaff) — SAFE
-  ================================================== */
-  users
-    .filter(u => u.role === "staff")
-    .forEach(u => {
-      if (!staffList.some(s => s.id === u.id)) {
-        staffList.push({
-          id: u.id,
-          firstName: u.firstName || u.email.split("@")[0],
-          lastName: u.lastName || "",
-          email: u.email,
-          attendance: [],
-          lessons: []
-        });
-      }
-    });
+  if (!userDoc.exists() || userDoc.data().role !== "admin") {
+    alert("Admin access only.");
+    window.location.href = "../index.html";
+    return;
+  }
 
-  localStorage.setItem("myStaff", JSON.stringify(staffList));
+  // If admin is confirmed → load everything
+  initializeAdminPanel();
+});
 
-  /* ==================================================
-     ELEMENT REFERENCES
-  ================================================== */
-  const staffSelect = document.getElementById("staffSelect");
-  const attendanceBody = document.getElementById("attendanceHistory");
-  const attendanceDateInput = document.getElementById("attendanceDate");
-  const checkInBtn = document.getElementById("checkInBtn");
-  const checkOutBtn = document.getElementById("checkOutBtn");
-  const adminLessonList = document.getElementById("adminLessonList");
+
+/* ==================================================
+   MAIN INITIALIZER
+================================================== */
+
+function initializeAdminPanel() {
+
+  loadUsers();
+  loadUsersForLinking();
+  loadStudentsForResults(); // NEW: load result dropdown
+}
+
+
+/* ==================================================
+   LOAD ALL USERS (For Student Management Page)
+================================================== */
+
+async function loadUsers() {
+
+  const snapshot = await getDocs(collection(db, "users"));
+
+  const students = [];
+  const parents = [];
+  const staff = []; // ✅ NEW: staff array
+
+  snapshot.forEach(docSnap => {
+    const data = docSnap.data();
+
+    if (data.role === "student") students.push(data);
+    if (data.role === "parent") parents.push(data);
+    if (data.role === "staff") staff.push(data); // ✅ NEW
+  });
+
+  renderStudents(students);
+  populateParentDropdown(parents);
+  populateStudentDropdown(students);
+
+  populateStaffDropdown(staff); // ✅ NEW FUNCTION CALL
+}
+
+
+/* ==================================================
+   RENDER STUDENTS LIST
+================================================== */
+
+function renderStudents(students) {
+
+  const container = document.getElementById("studentList");
+  if (!container) return;
+
+  container.innerHTML = "";
+
+  if (students.length === 0) {
+    container.innerHTML = "<li>No students found.</li>";
+    return;
+  }
+
+  students.forEach(student => {
+
+    const li = document.createElement("li");
+
+    li.innerHTML = `
+      <strong>${student.name || "No Name"}</strong>
+      <br>
+      ${student.email}
+    `;
+
+    container.appendChild(li);
+  });
+}
+
+
+/* ==================================================
+   POPULATE PARENT SELECT
+================================================== */
+
+function populateParentDropdown(parents) {
+
   const parentSelect = document.getElementById("parentSelect");
-  const studentSelect = document.getElementById("resultStudentSelect");
-  const attendanceStudentSelect = document.getElementById("attendanceStudentSelect");
-  const studentList = document.getElementById("studentList");
+  if (!parentSelect) return;
 
-  let selectedStaffId = null;
+  parentSelect.innerHTML = `<option value="">Assign Parent</option>`;
 
-  /* ==================================================
-     UTILITIES
-  ================================================== */
-  const todayISO = () => new Date().toISOString().split("T")[0];
+  parents.forEach(parent => {
 
-  const saveStaff = () =>
-    localStorage.setItem("myStaff", JSON.stringify(staffList));
+    const option = document.createElement("option");
+    option.value = parent.uid;
+    option.textContent = parent.name;
 
-  const clearAttendanceTable = (msg = "No attendance records") => {
-    attendanceBody.innerHTML = `<tr><td colspan="3">${msg}</td></tr>`;
-  };
+    parentSelect.appendChild(option);
+  });
+}
 
-  /* ==================================================
-     STAFF DROPDOWN
-  ================================================== */
-  function populateStaffDropdown() {
-    staffSelect.innerHTML = `<option value="">Select Staff</option>`;
+/* ==================================================
+   POPULATE STAFF DROPDOWN (ADMIN STAFF MANAGEMENT)
+================================================== */
 
-    staffList.forEach(s => {
-      const option = document.createElement("option");
-      option.value = s.id;
-      option.textContent = `${s.firstName} ${s.lastName}`;
-      staffSelect.appendChild(option);
-    });
+function populateStaffDropdown(staffList) {
 
-    clearAttendanceTable();
-    checkInBtn.disabled = true;
-    checkOutBtn.disabled = true;
+  const staffSelect = document.getElementById("staffSelect");
+  if (!staffSelect) return;
+
+  // Clear existing options
+  staffSelect.innerHTML = `<option value="">-- Select Staff --</option>`;
+
+  if (staffList.length === 0) {
+    console.warn("No staff found in database");
+    return;
   }
 
-  populateStaffDropdown();
+  staffList.forEach(staff => {
 
-  /* ==================================================
-     ATTENDANCE RENDER
-  ================================================== */
-  function renderAttendance(staff) {
-    attendanceBody.innerHTML = "";
+    const option = document.createElement("option");
 
-    if (!staff || !staff.attendance || staff.attendance.length === 0) {
-      clearAttendanceTable();
-      return;
-    }
+    option.value = staff.uid;
+    option.textContent = `${staff.name} (${staff.subjects || "No Subject"})`;
 
-    const date = attendanceDateInput.value;
-    const records = date
-      ? staff.attendance.filter(a => a.date === date)
-      : staff.attendance;
-
-    if (!records.length) {
-      clearAttendanceTable("No attendance for selected date");
-      return;
-    }
-
-    records.forEach(r => {
-      const tr = document.createElement("tr");
-      tr.innerHTML = `
-        <td>${r.type}</td>
-        <td>${r.date}</td>
-        <td>${r.time}</td>
-      `;
-      attendanceBody.appendChild(tr);
-    });
-  }
-
-  /* ==================================================
-     STAFF SELECTION
-  ================================================== */
-  staffSelect.addEventListener("change", e => {
-    selectedStaffId = Number(e.target.value);
-    const staff = staffList.find(s => s.id === selectedStaffId);
-
-    checkInBtn.disabled = !staff;
-    checkOutBtn.disabled = !staff;
-
-    renderAttendance(staff);
+    staffSelect.appendChild(option);
   });
+}
 
-  /* ==================================================
-     CHECK-IN / CHECK-OUT
-  ================================================== */
-  checkInBtn.addEventListener("click", () => {
-    const staff = staffList.find(s => s.id === selectedStaffId);
-    if (!staff) return;
 
-    if (staff.attendance.some(a => a.type === "Sign In" && a.date === todayISO())) {
-      return alert("Already checked in today");
-    }
+/* ==================================================
+   POPULATE LINKING DROPDOWNS
+================================================== */
 
-    staff.attendance.push({
-      type: "Sign In",
-      date: todayISO(),
-      time: new Date().toLocaleTimeString()
-    });
+function populateStudentDropdown(students) {
 
-    saveStaff();
-    renderAttendance(staff);
+  const studentSelect = document.getElementById("studentLinkSelect");
+  if (!studentSelect) return;
+
+  studentSelect.innerHTML = `<option value="">Select Student</option>`;
+
+  students.forEach(student => {
+
+    const option = document.createElement("option");
+    option.value = student.uid;
+    option.textContent = student.name;
+
+    studentSelect.appendChild(option);
   });
+}
 
-  checkOutBtn.addEventListener("click", () => {
-    const staff = staffList.find(s => s.id === selectedStaffId);
-    if (!staff) return;
 
-    staff.attendance.push({
-      type: "Logout",
-      date: todayISO(),
-      time: new Date().toLocaleTimeString()
-    });
+async function loadUsersForLinking() {
 
-    saveStaff();
-    renderAttendance(staff);
-  });
-
-  attendanceDateInput.addEventListener("change", () => {
-    const staff = staffList.find(s => s.id === selectedStaffId);
-    renderAttendance(staff);
-  });
-
-  /* ==================================================
-     ADMIN VIEW — STUDENTS & PARENTS (FIXED)
-  ================================================== */
-  function loadParents() {
-    if (!parentSelect) return;
-
-    parentSelect.innerHTML = `<option value="">Assign Parent</option>`;
-    parents.forEach(parent => {
-      const option = document.createElement("option");
-      option.value = parent.id;
-      option.textContent = parent.name || "Unnamed Parent";
-      parentSelect.appendChild(option);
-    });
-  }
-
-  function loadStudents() {
-    if (studentList) studentList.innerHTML = "";
-
-    if (studentSelect)
-      studentSelect.innerHTML = `<option value="">Select Student</option>`;
-
-    if (attendanceStudentSelect)
-      attendanceStudentSelect.innerHTML = `<option value="">Select Student</option>`;
-
-    students.forEach(student => {
-      const studentName = student.name || "Unnamed Student";
-
-      if (studentList) {
-        const li = document.createElement("li");
-        li.textContent = studentName;
-        studentList.appendChild(li);
-      }
-
-      [studentSelect, attendanceStudentSelect].forEach(select => {
-        if (!select) return;
-        const option = document.createElement("option");
-        option.value = student.id;
-        option.textContent = studentName;
-        select.appendChild(option);
-      });
-    });
-  }
-
-  loadParents();
-  loadStudents();
-
-    /* ==================================================
-     PARENT ↔ STUDENT LINKING (FIXED & WORKING)
-  ================================================== */
+  const snapshot = await getDocs(collection(db, "users"));
 
   const linkParentSelect = document.getElementById("linkParentSelect");
-  const studentLinkSelect = document.getElementById("studentLinkSelect");
-  const linkParentBtn = document.getElementById("linkParentBtn");
-  const publishResultBtn = document.getElementById("publishResultBtn");
-  const resultSubject = document.getElementById("resultSubject");
-  const resultScore = document.getElementById("resultScore");
-  const resultTerm = document.getElementById("resultTerm");
+  if (!linkParentSelect) return;
 
+  linkParentSelect.innerHTML = `<option value="">Select Parent</option>`;
 
-  /* Populate parent dropdown (linking) */
-  function loadParentsForLinking() {
-    if (!linkParentSelect) return;
+  snapshot.forEach(docSnap => {
 
-    linkParentSelect.innerHTML = `<option value="">Select Parent</option>`;
-    parents.forEach(parent => {
+    const user = docSnap.data();
+
+    if (user.role === "parent") {
+
       const option = document.createElement("option");
-      option.value = parent.id;
-      option.textContent = parent.name || "Unnamed Parent";
+      option.value = user.uid;
+      option.textContent = user.name;
+
       linkParentSelect.appendChild(option);
-    });
-  }
+    }
+  });
+}
 
-  /* Populate student dropdown (linking) */
-  function loadStudentsForLinking() {
-    if (!studentLinkSelect) return;
 
-    studentLinkSelect.innerHTML = `<option value="">Select Student</option>`;
-    students.forEach(student => {
+/* ==================================================
+   LINK PARENT ↔ STUDENT
+================================================== */
+
+const linkParentBtn = document.getElementById("linkParentBtn");
+
+if (linkParentBtn) {
+
+  linkParentBtn.addEventListener("click", async () => {
+
+    const parentUID = document.getElementById("linkParentSelect").value;
+    const studentUID = document.getElementById("studentLinkSelect").value;
+
+    if (!parentUID || !studentUID) {
+      alert("Please select both parent and student.");
+      return;
+    }
+
+    try {
+
+      await updateDoc(doc(db, "users", parentUID), {
+        children: arrayUnion(studentUID)
+      });
+
+      await updateDoc(doc(db, "users", studentUID), {
+        parentIds: arrayUnion(parentUID)
+      });
+
+      alert("Parent successfully linked ✔");
+
+    } catch (error) {
+      console.error(error);
+      alert("Linking failed.");
+    }
+
+  });
+}
+
+
+/* ==================================================
+   PROFESSIONAL RESULT SYSTEM
+================================================== */
+
+/* ---------- Load students into result dropdown ---------- */
+async function loadStudentsForResults() {
+
+  const resultSelect = document.getElementById("resultStudentSelect");
+  if (!resultSelect) return; // only runs on result.html
+
+  const snapshot = await getDocs(collection(db, "users"));
+
+  resultSelect.innerHTML = `<option value="">Select Student</option>`;
+
+  snapshot.forEach(docSnap => {
+
+    const user = docSnap.data();
+
+    if (user.role === "student") {
+
       const option = document.createElement("option");
-      option.value = student.id;
-      option.textContent = student.name || "Unnamed Student";
-      studentLinkSelect.appendChild(option);
+      option.value = user.uid;
+      option.textContent = user.name;
+
+      resultSelect.appendChild(option);
+    }
+  });
+}
+
+
+/* ---------- Publish Result ---------- */
+
+const publishBtn = document.getElementById("publishResultBtn");
+
+if (publishBtn) {
+
+  publishBtn.addEventListener("click", async () => {
+
+    const studentUID = document.getElementById("resultStudentSelect").value;
+    const subject = document.getElementById("resultSubject").value.trim();
+    const score = document.getElementById("resultScore").value;
+    const term = document.getElementById("resultTerm").value;
+
+    if (!studentUID || !subject || !score || !term) {
+      alert("Please fill all result fields.");
+      return;
+    }
+
+    try {
+
+      // Add result as subcollection under student
+      await addDoc(
+        collection(db, "users", studentUID, "results"),
+        {
+          subject,
+          score: Number(score),
+          term,
+          createdAt: serverTimestamp()
+        }
+      );
+
+      alert("Result published successfully ✔");
+
+      // Clear inputs
+      document.getElementById("resultSubject").value = "";
+      document.getElementById("resultScore").value = "";
+      document.getElementById("resultTerm").value = "";
+
+    } catch (error) {
+      console.error(error);
+      alert("Failed to publish result.");
+    }
+
+  });
+}
+
+/**
+ * staff-management.js
+ * --------------------------------------------------
+ * Admin Staff Management (UPDATED FIXED VERSION)
+ * - Fixed check-in error (wrong variable)
+ * - Consistent date/time handling
+ * - Safe Firestore writes
+ * - Comments added for clarity
+ * --------------------------------------------------
+ */
+
+
+/* ==================================================
+   GLOBAL ELEMENTS
+================================================== */
+
+const staffSelect = document.getElementById("staffSelect");
+const attendanceBody = document.getElementById("attendanceHistory");
+const checkInBtn = document.getElementById("checkInBtn");
+const checkOutBtn = document.getElementById("checkOutBtn");
+const attendanceDate = document.getElementById("attendanceDate");
+
+
+/* ==================================================
+   HELPER: GET CURRENT DATE & TIME (CONSISTENT FORMAT)
+================================================== */
+
+function getNow() {
+  const now = new Date();
+
+  const date = now.toISOString().split("T")[0]; // YYYY-MM-DD (important for filtering)
+  const time = now.toLocaleTimeString();
+
+  return { date, time };
+}
+
+
+/* ==================================================
+   LOAD STAFF INTO DROPDOWN
+================================================== */
+
+async function loadStaff() {
+  try {
+    const snapshot = await getDocs(collection(db, "users"));
+
+    snapshot.forEach(docSnap => {
+      const user = docSnap.data();
+
+      if (user.role === "staff") {
+        const option = document.createElement("option");
+        option.value = docSnap.id;
+        option.textContent = user.name;
+
+        staffSelect.appendChild(option);
+      }
     });
+
+  } catch (error) {
+    console.error("Error loading staff:", error);
+  }
+}
+
+loadStaff();
+
+
+/* ==================================================
+   LOAD ATTENDANCE (ADMIN VIEW)
+================================================== */
+
+async function loadAttendance(staffId, selectedDate = null) {
+  try {
+    attendanceBody.innerHTML = "";
+
+    let q;
+
+    // Filter by staff + optional date
+    if (selectedDate) {
+      q = query(
+        collection(db, "attendance"),
+        where("staffId", "==", staffId),
+        where("date", "==", selectedDate)
+      );
+    } else {
+      q = query(
+        collection(db, "attendance"),
+        where("staffId", "==", staffId)
+      );
+    }
+
+    const snapshot = await getDocs(q);
+
+    if (snapshot.empty) {
+      attendanceBody.innerHTML =
+        `<tr><td colspan="3">No records found</td></tr>`;
+      return;
+    }
+
+    snapshot.forEach(docSnap => {
+      const record = docSnap.data();
+
+      const row = document.createElement("tr");
+
+      row.innerHTML = `
+        <td>${record.action}</td>
+        <td>${record.date}</td>
+        <td>${record.time}</td>
+      `;
+
+      attendanceBody.appendChild(row);
+    });
+
+  } catch (error) {
+    console.error("Error loading attendance:", error);
+  }
+}
+
+
+/* ==================================================
+   STAFF SELECTION CHANGE
+================================================== */
+
+staffSelect?.addEventListener("change", () => {
+  const staffId = staffSelect.value;
+
+  if (staffId) {
+    loadAttendance(staffId);
+  }
+});
+
+
+/* ==================================================
+   DATE FILTER
+================================================== */
+
+attendanceDate?.addEventListener("change", () => {
+  const staffId = staffSelect.value;
+  const selectedDate = attendanceDate.value;
+
+  if (staffId) {
+    loadAttendance(staffId, selectedDate);
+  }
+});
+
+
+/* ==================================================
+   CHECK-IN FUNCTION (FIXED)
+================================================== */
+
+checkInBtn?.addEventListener("click", async () => {
+
+  const staffId = staffSelect?.value;
+
+  if (!staffId) {
+    alert("Please select a staff");
+    return;
   }
 
-  loadParentsForLinking();
-  loadStudentsForLinking();
+  try {
 
-  /* Link parent to student */
-  linkParentBtn.addEventListener("click", () => {
-    const parentId = Number(linkParentSelect.value);
-    const studentId = Number(studentLinkSelect.value);
-  
-    if (!parentId || !studentId) {
-      alert("Please select both parent and student");
-      return;
-    }
-  
-    const parent = parents.find(p => p.id === parentId);
-    const student = students.find(s => s.id === studentId);
-  
-    if (!parent || !student) {
-      alert("Parent or Student not found");
-      return;
-    }
-  
-    // --- Ensure arrays exist ---
-    parent.children = parent.children || [];
-    student.parentIds = student.parentIds || [];
-  
-    // --- Link both sides ---
-    if (!parent.children.includes(studentId)) {
-      parent.children.push(studentId);
-    }
-  
-    if (!student.parentIds.includes(parentId)) {
-      student.parentIds.push(parentId);
-    }
-  
-    localStorage.setItem("parents", JSON.stringify(parents));
-    localStorage.setItem("students", JSON.stringify(students));
-  
-    alert("Parent successfully linked to student ✔");
-  });
+    const { date, time } = getNow();
 
-  // /* ==================================================
-  //    RESULT PUBLICATION (WITH NOTIFICATIONS)
-  // ================================================== */
-  publishResultBtn.addEventListener("click", () => {
-    const studentId = Number(studentSelect.value);
-    const subject = resultSubject.value.trim();
-    const score = resultScore.value.trim();
-    const term = resultTerm.value;
-  
-    if (!studentId || !subject || !score || !term) {
-      alert("All fields are required");
-      return;
-    }
-  
-    const student = students.find(s => s.id === studentId);
-    if (!student) {
-      alert("Student not found");
-      return;
-    }
-  
-    student.results = student.results || [];
-  
-    const result = {
-      subject,
-      score,
-      term,
-      date: new Date().toLocaleDateString()
-    };
-  
-    student.results.push(result);
-    localStorage.setItem("students", JSON.stringify(students));
-  
-    notifyResultPublished(student, result);
-  
-    alert("Result published successfully ✔");
-  
-    resultSubject.value = "";
-    resultScore.value = "";
-    resultTerm.value = "";
-  });
+    // OPTIONAL: get staff info (for better records)
+    const staffDoc = await getDoc(doc(db, "users", staffId));
 
-
-
-
-  /* ==================================================
-     ADMIN VIEW — LESSON NOTES
-  ================================================== */
-  function renderLessonsForAdmin() {
-    adminLessonList.innerHTML = "";
-
-    staffList.forEach(staff => {
-      staff.lessons?.forEach(lesson => {
-        const li = document.createElement("li");
-        li.textContent =
-          `${staff.firstName} ${staff.lastName} → ${lesson.name} (${lesson.uploadedAt})`;
-        adminLessonList.appendChild(li);
-      });
+    /* =========================================
+       FIXED WRITE (IMPORTANT FIX)
+       - was using undefined variable before
+    ========================================= */
+    await addDoc(collection(db, "attendance"), {
+      staffId: staffId, // ✅ FIXED (was wrong before)
+      staffName: staffDoc.exists() ? staffDoc.data().name : "Unknown",
+      action: "Check-In",
+      date: date,
+      time: time,
+      timestamp: serverTimestamp()
     });
 
-    if (!adminLessonList.children.length) {
-      adminLessonList.innerHTML = "<li>No lesson uploaded</li>";
-    }
+    alert("Checked in successfully");
+
+    loadAttendance(staffId);
+
+  } catch (error) {
+    console.error("Check-in error:", error);
+    alert("Error checking in");
   }
 
-  function notifyResultPublished(student, result) {
-    // Notify student
-    createNotification({
-      title: "New Result Published",
-      message: `${result.subject} (${result.term}) has been published.`,
-      role: "student"
-    });
-  
-    // Notify parents
-    const parents = JSON.parse(localStorage.getItem("parents")) || [];
-  
-    parents
-      .filter(p => p.children?.includes(student.id))
-      .forEach(parent => {
-        createNotification({
-          title: "Child Result Published",
-          message: `${student.name}'s ${result.subject} result is now available.`,
-          role: "parent"
-        });
-      });
+});
+
+
+/* ==================================================
+   CHECK-OUT FUNCTION
+================================================== */
+
+checkOutBtn?.addEventListener("click", async () => {
+
+  const staffId = staffSelect?.value;
+
+  if (!staffId) {
+    alert("Please select a staff");
+    return;
   }
 
+  try {
 
-  const markAttendanceBtn = document.getElementById("markAttendanceBtn");
+    const { date, time } = getNow();
 
-  // /* ==================================================
-  //    STUDENT ATTENDANCE MARKING
-  // ================================================== */
-  markAttendanceBtn.addEventListener("click", () => {
-    const studentId = Number(attendanceStudentSelect.value);
-    const status = document.getElementById("attendanceStatus").value;
-  
-    if (!studentId) {
-      alert("Please select a student");
-      return;
-    }
-  
-    const student = students.find(s => s.id === studentId);
-    if (!student) {
-      alert("Student not found");
-      return;
-    }
-  
-    student.attendance = student.attendance || [];
-  
-    student.attendance.push({
-      date: todayISO(),
-      status
+    const staffDoc = await getDoc(doc(db, "users", staffId));
+
+    await addDoc(collection(db, "attendance"), {
+      staffId: staffId,
+      staffName: staffDoc.exists() ? staffDoc.data().name : "Unknown",
+      action: "Check-Out",
+      date: date,
+      time: time,
+      timestamp: serverTimestamp()
     });
-  
-    localStorage.setItem("students", JSON.stringify(students));
-    alert("Attendance recorded ✔");
-  });
-  
 
+    alert("Checked out successfully");
 
-  renderLessonsForAdmin();
+    loadAttendance(staffId);
+
+  } catch (error) {
+    console.error("Check-out error:", error);
+    alert("Error checking out");
+  }
 
 });

@@ -8,13 +8,21 @@
  * Uses Firebase Authentication + Firestore
  * --------------------------------------------------
  */
+/* ======================================================
+   IMPORT FIREBASE CORE SERVICES
+   ====================================================== */
+import { auth, db } from "./firebase.js";
 
+/* ======================================================
+   IMPORT AUTH METHODS DIRECTLY FROM FIREBASE
+   ====================================================== */
 import {
-  auth,
-  db,
   createUserWithEmailAndPassword
-} from "./firebase.js";
+} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 
+/* ======================================================
+   IMPORT FIRESTORE METHODS
+   ====================================================== */
 import {
   doc,
   setDoc,
@@ -57,27 +65,47 @@ form.addEventListener("submit", async (e) => {
        STEP 1: SAVE ROLE TO CENTRAL USERS COLLECTION
        (🔥 THIS FIXES YOUR LOGIN ERROR)
     ====================================================== */
+
     await setDoc(doc(db, "users", user.uid), {
-      uid: user.uid,
-      role: role,
-      email: email,
-      createdAt: serverTimestamp()
-    });
+  uid: user.uid,
+  role,
+  name: `${firstName} ${lastName}`,
+  email,
+  phone,
+  address,
+  subjects: role === "staff" ? subjects : [],
+  attendance: [],
+  results: [],
+  photo: "",
+  createdAt: serverTimestamp()
+});
+
 
     /* =====================================================
        STEP 2: SAVE FULL PROFILE TO ROLE COLLECTION
     ====================================================== */
-    const profileData = {
-      uid: user.uid,
-      name: `${firstName} ${lastName}`,
-      email,
-      phone,
-      address,
-      subjects: role === "staff" ? subjects : "",
-      createdAt: serverTimestamp()
-    };
+    /* ======================================================
+   SAVE USER PROFILE TO FIRESTORE
+   ====================================================== */
 
-    await setDoc(doc(db, role + "s", user.uid), profileData);
+const profileData = {
+  uid: user.uid,
+  role,
+  firstName,
+  lastName,
+  name: `${firstName} ${lastName}`,
+  email,
+  phone,
+  address,
+  subjects: role === "staff" ? subjects : [],
+  attendance: [],
+  results: [],
+  photo: "",
+  createdAt: serverTimestamp()
+};
+
+/* Save user profile inside "users" collection */
+await setDoc(doc(db, "users", user.uid), profileData);
 
     alert("Registration successful. You can now sign in.");
     window.location.href = "index.html";

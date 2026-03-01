@@ -1,0 +1,131 @@
+/* Admin - Desktop styles (1024px+) */
+
+@media (min-width: 1024px) {
+  main {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 36px 48px;
+    grid-template-columns: 260px 1fr 360px;
+    gap: 36px;
+  }
+
+  .first-screen .side-bar {
+    position: sticky;
+    top: 96px;
+    align-self: start;
+    padding: 28px;
+  }
+
+  .report-cards {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+  }
+
+  .report-cards .card {
+    padding: 26px;
+    font-size: 1.05rem;
+  }
+
+  .content-section {
+    padding: 28px;
+  }
+
+  .side-bar a {
+    padding: 14px 16px;
+    font-size: 1.05rem;
+  }
+
+  .content-section table th,
+  .content-section table td {
+    padding: 14px 16px;
+    font-size: 1rem;
+  }
+
+  header, main, footer {
+        margin: 0 auto;
+    }
+
+    header {
+        width: 100%;
+    }
+    /********* HAMBURGER ********/
+    .hamburger {
+        display: none;
+    }
+
+    /********* NAVIGATION MENU ********/
+    .nav-links {
+        display: block;
+        border-bottom: none;
+    }
+
+    .nav-links ul {
+        display: flex;
+        margin-left: 30rem;
+    }
+
+    .nav-links a {
+        border: none;
+        width: auto;
+    }
+
+    header aside {
+        padding-left:30rem;
+    }
+
+    
+    /********** FOOTER SECTION **********/
+    footer {
+    grid-template-columns: 1fr 1fr;
+    column-gap: 30px;
+    padding: 0.5rem 10px;
+    width: 100%;
+    height: auto;
+    margin-top: 20rem;
+}
+
+    .profile-card {
+      grid-template-columns: 1fr 1fr;
+    }
+  
+    .profile-card p {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+
+    .gallery-container {
+        grid-template-columns: 1fr 1fr 1fr 1fr;
+        column-gap: 20px;
+        row-gap: 20px;
+    }
+
+    .gallery-img{
+        width: 250px;
+        
+    }
+
+    .privacy-policy {
+        grid-template-columns: 1fr 1fr;
+        font-size: 1rem;
+        width: 100%;
+        padding: 0 10px;
+        padding-bottom: 1px;
+    }
+
+    .sacred-contact {
+        text-align: center;
+        margin-top: 2rem;
+        width: 30rem;
+    }
+    
+    .vjt-service {
+        text-align: center;
+        margin-top: 2rem;
+        width: 30rem;
+    }
+
+    .privacy-policy .p {
+        margin-left: 35rem;
+    }
+
+}

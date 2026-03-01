@@ -4,27 +4,29 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Welcome to the Sacred Harvasters International School Home Page. Explore our academic programs, extracurricular activities, and community events. Join us in fostering a nurturing mind environment and cultivating excellence for holistic education and personal growth.">
-    <title>SHICS student-dashboard</title>
+    <title>Lesson Note Page</title>
     <meta name="author" content="Vjutech LTD"/>
     <meta name="robots" content="index, follow">
 
     <!-------------------STYLES--------------------->
-    <link rel="stylesheet" href="styles/normalize.css">
-    <link rel="stylesheet" href="styles/student-base.css">
-    <link rel="stylesheet" href="styles/medium.css">
-    <link rel="stylesheet" href="styles/large.css">
-    <link rel="stylesheet" href="styles/notification.css">
+    <link rel="stylesheet" href="../styles/normalize.css">
+    <link rel="stylesheet" href="../styles/student-base.css">
+    <link rel="stylesheet" href="../styles/student-medium.css">
+    <link rel="stylesheet" href="../styles/student-large.css">
+    <link rel="stylesheet" href="../styles/notification.css">
+    
     
 
     <!--------------------SCRIPTS----------------------->
-    <script src="scripts/date.js" defer></script>
-    <script src="scripts/navigation.js" defer></script>
-    <script src="scripts/student-dashboard.js" defer></script>
-    <script src="scripts/lesson-notes.js" defer></script>
-    <script type="module" src="scripts/student-lessonNotes.js"></script>
-    <!-- AUTH + FIREBASE -->
-  <script src="scripts/auth.js" defer></script>
-  <script type="module" src="scripts/student-lessons.js" defer></script>
+    <script type="module" src="../scripts/firebase-config.js"></script>
+    <script type="module" src="../scripts/login.js"></script>
+    <script src="../scripts/date.js" defer></script>
+    <script src="../scripts/navigation.js" defer></script>
+    <script type="module" src="../scripts/student-dashboard.js"></script>
+    <script type="module" src="../scripts/student-lesson.js"></script>
+    <script src="../scripts/lesson-notes.js" defer></script>
+    <script type="module" src="../scripts/student-results.js"></script>
+    <script type="module" src="../scripts/student-lessons.js"></script>
 
   
     <!--Open Graph-->
@@ -57,12 +59,14 @@
     </header>
 
     <!--Navigation Submenu-->
-     <nav id="nav-links" class="nav-links">
+     <nav id="nav-links" class="sub-menu">
       <ul>
           <li><a class="" href="student.html">Dashboard</a></li>
           <li><a class="" href="student-attendance.html">Attendance</a></li>
-          <li><a class="" href="student-lessons.html">Lesson</a></li>
+          <li><a class="" href="student-lessons.html">Lesson Note</a></li>
           <li><a class="" href="student-results.html">Results</a></li>
+          <li><a class="" href="student-fees.html">Fees</a></li>
+          <li><a class="" href="student-transcript.html">Transcript</a></li>
           <li><a class="" href="student-profile.html">Profile</a></li>
       </ul>
     </nav>
@@ -75,12 +79,9 @@
     </section>
 
     <!-- LESSON NOTES DISPLAY -->
-    <section id="lessonList" class="card-grid">
-      <!-- Lesson cards appear here -->
-    </section>
         <h1>Lesson Notes</h1>
       <!-- Lesson notes will be rendered here -->
-      <section id="lessonNotesContainer"></section>
+      <section id="lessonNotesContainer" class="card-grid"></section>
     </main>
     <footer>
         <div>

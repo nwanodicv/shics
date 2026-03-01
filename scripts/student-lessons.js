@@ -1,6 +1,6 @@
 /* ================= FIREBASE IMPORTS ================= */
 
-import { db } from "./firebase-config.js";
+import { db } from "../firebase.js";
 
 import {
   collection,
@@ -23,7 +23,6 @@ if (!studentUser || studentUser.role !== "student") {
 /* ================= DOM ELEMENTS ================= */
 
 const lessonList = document.getElementById("lessonList");
-const subjectFilter = document.getElementById("subjectFilter");
 const studentInfo = document.getElementById("studentInfo");
 
 /* ================= DISPLAY STUDENT INFO ================= */
@@ -32,62 +31,55 @@ studentInfo.textContent = `Logged in as: ${studentUser.email}`;
 
 /* ================= LOAD LESSON NOTES ================= */
 
-async function loadLessonNotes() {
-  lessonList.innerHTML = "<p>Loading lessons...</p>";
+import { onSnapshot, collection, query, where } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
-  try {
-    // Firestore query:
-    // - Only lesson notes
-    // - Ordered by newest
-    const q = query(
-      collection(db, "lessons"),
-      where("type", "==", "note"),
-      orderBy("createdAt", "desc")
-    );
+const lessonContainer = document.getElementById("studentLessons");
+const subjectFilter = document.getElementById("subjectFilter");
 
-    const snapshot = await getDocs(q);
+let allLessons = [];
 
-    lessonList.innerHTML = "";
+function loadLessonsRealtime() {
+  const q = query(
+    collection(db, "lessonContents"),
+    where("type", "==", "lesson_note")
+  );
 
-    if (snapshot.empty) {
-      lessonList.innerHTML = "<p>No lesson notes available.</p>";
-      return;
-    }
+  onSnapshot(q, (snapshot) => {
+    lessonContainer.innerHTML = "";
+    allLessons = [];
 
     const subjects = new Set();
 
-    snapshot.forEach(doc => {
-      const lesson = doc.data();
-
-      // Collect subjects for filter
-      subjects.add(lesson.subject);
-
-      // Create lesson card
-      const card = document.createElement("article");
-      card.className = "lesson-card";
-
-      card.innerHTML = `
-        <h3>${lesson.title}</h3>
-        <p><strong>Subject:</strong> ${lesson.subject}</p>
-        <p><strong>Class:</strong> ${lesson.classLevel}</p>
-        <p><strong>Teacher:</strong> ${lesson.staffName}</p>
-        <a href="${lesson.fileUrl}" target="_blank">
-          View / Download
-        </a>
-      `;
-
-      lessonList.appendChild(card);
+    snapshot.forEach(docSnap => {
+      const d = docSnap.data();
+      allLessons.push(d);
+      subjects.add(d.subject);
     });
 
+    renderLessons(allLessons);
     populateSubjectFilter([...subjects]);
-
-  } catch (error) {
-    console.error("Error loading lessons:", error);
-    lessonList.innerHTML = "<p>Error loading lessons.</p>";
-  }
+  });
 }
 
-/* ================= SUBJECT FILTER ================= */
+function renderLessons(lessons) {
+  lessonContainer.innerHTML = "";
+
+  if (!lessons.length) {
+    lessonContainer.innerHTML = "<p>No lesson notes available.</p>";
+    return;
+  }
+
+  lessons.forEach(d => {
+    lessonContainer.innerHTML += `
+      <div class="lesson-card">
+        <h3>${d.title}</h3>
+        <p>${d.subject} — ${d.classId}</p>
+        <p>Term: ${d.term}</p>
+        <a href="${d.contentUrl}" target="_blank">View Lesson</a>
+      </div>
+    `;
+  });
+}
 
 function populateSubjectFilter(subjects) {
   subjectFilter.innerHTML = `<option value="">All Subjects</option>`;
@@ -101,22 +93,14 @@ function populateSubjectFilter(subjects) {
 }
 
 subjectFilter.addEventListener("change", () => {
-  const selected = subjectFilter.value.toLowerCase();
-  const cards = document.querySelectorAll(".lesson-card");
+  const selected = subjectFilter.value;
 
-  cards.forEach(card => {
-    const subject = card
-      .querySelector("p")
-      .textContent
-      .toLowerCase();
-
-    card.style.display =
-      !selected || subject.includes(selected)
-        ? "block"
-        : "none";
-  });
+  if (!selected) {
+    renderLessons(allLessons);
+  } else {
+    const filtered = allLessons.filter(l => l.subject === selected);
+    renderLessons(filtered);
+  }
 });
 
-/* ================= INITIAL LOAD ================= */
-
-loadLessonNotes();
+loadLessonsRealtime();

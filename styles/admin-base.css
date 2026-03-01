@@ -13,7 +13,6 @@ Secondary Font: Montserrat — for headings and UI elements
 
 Hamburger open icon: \2630
 Hamburger closing icon: \00D7*/
-
 * {
     margin: 0;
     padding: 0;
@@ -129,40 +128,36 @@ a:hover {
 
 /************* MAIN ****************/
 main {
-    display: grid;
-    grid-template-columns: 18rem auto;
-    column-gap: 20px;
+    display: block;
+    padding: 0;
 }
+
 h1 {
     margin: 0 10px;
     color: #222;
+    font-size: 1.25rem;
 }
 
-li .home-page { /****Way finding ****/
-    width: 17.6rem;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+li .home-page {
+    width: auto;
+    box-shadow: none;
 }
 
-.first-screen {
-    background-color: #ffab7a;
-    .side-bar {
-        width: 12rem;
-        height: auto;
-
-        & ul {
-            margin-top: 5rem;
-        }
-
-        & li {
-            margin: 30px 10px;
-        }
-
-        & a {
-            text-decoration: none;
-            font-size: 1rem;
-            color: #800000;
-        }
-    }
+/* First screen / sidebar: keep simple, mobile-first */
+.first-screen { background: transparent; }
+.first-screen .side-bar {
+    width: 100%;
+    padding: 0;
+}
+.side-bar ul { margin: 0; padding: 0; list-style: none; }
+.side-bar li { margin: 8px 0; }
+.side-bar a {
+    text-decoration: none;
+    font-size: 1rem;
+    color: #800000;
+    padding: 8px 10px;
+    display: block;
+    border-radius: 6px;
 }
 
 
@@ -236,35 +231,364 @@ footer h3 {
     margin: 0;
     font-size: 2rem;
 }
+/* -------------------- Admin Page Styles (Mobile-first) -------------------- */
+
+/* Main layout for admin pages - keep header untouched above */
+main {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 24px;
+    padding: 18px;
+    background: #f5f7fa;
+}
+
+.first-screen .side-bar {
+    background: #fff;
+    border-radius: 8px;
+    padding: 18px;
+    box-shadow: 0 6px 18px rgba(34,34,34,0.04);
+}
+
+.side-bar ul {
+    list-style: none;
+}
+
+.side-bar li {
+    margin: 10px 0;
+}
+
+.side-bar a {
+    text-decoration: none;
+    color: #222;
+    padding: 10px 12px;
+    display: block;
+    border-radius: 6px;
+    transition: background 0.18s ease, transform 0.12s ease;
+}
+
+.side-bar a:hover {
+    background: rgba(128,0,0,0.06);
+    transform: translateX(4px);
+}
+
+/* Content containers */
+.content-section {
+    background: #fff;
+    padding: 18px;
+    border-radius: 8px;
+    box-shadow: 0 6px 18px rgba(34,34,34,0.04);
+}
+
+.report-cards {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 12px;
+}
+
+.report-cards .card {
+    padding: 18px;
+    border-left: 4px solid #800000;
+    background: linear-gradient(180deg,#fff,#fbfbfb);
+}
+
+/* Tables */
+.content-section table {
+    width: 100%;
+    border-collapse: collapse;
+    background: transparent;
+}
+
+.content-section th,
+.content-section td {
+    padding: 10px 12px;
+    border-bottom: 1px solid rgba(0,0,0,0.06);
+    text-align: left;
+    font-size: 0.95rem;
+}
+
+.content-section th {
+    background: rgba(128,0,0,0.04);
+    color: #222;
+}
+
+/* Form controls */
+.form-row {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 12px;
+}
+
+.form-row label { font-weight: 600; color: #333; }
+.form-row input,
+.form-row select,
+.form-row textarea {
+    padding: 10px 12px;
+    border-radius: 6px;
+    border: 1px solid #e6e9ee;
+    font-size: 0.95rem;
+}
+
+.btn {
+    display: inline-block;
+    padding: 10px 18px;
+    background: #800000;
+    color: #fff;
+    border-radius: 6px;
+    text-decoration: none;
+}
+
+/* Small helpers */
+.muted { color: #666; font-size: 0.95rem; }
+.flex { display:flex; gap:12px; align-items:center; }
+
+@media (prefers-reduced-motion: no-preference) {
+    .side-bar a { transition: transform 0.12s ease, background 0.18s ease; }
+}
+
+/* Accessibility & interactive states */
+.btn:focus,
+.side-bar a:focus,
+.hamburger:focus {
+    outline: 3px solid rgba(128,0,0,0.12);
+    outline-offset: 2px;
+    box-shadow: 0 0 0 4px rgba(128,0,0,0.06);
+}
+
+.content-section .table-wrap { overflow-x: auto; }
+.content-section table tbody tr:hover { background: rgba(128,0,0,0.03); }
+
+/* ensure buttons in admin pages inherit .btn styles */
+button[id], input[type="submit"], .action-btn {
+    appearance: none;
+    border: none;
+    cursor: pointer;
+}
+
+button[disabled], .btn[disabled] { opacity: 0.6; cursor: not-allowed; }
+
 
 
 .privacy-policy {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+    align-items: center;
     background: linear-gradient(
-    to right,
-    #920101 0%,      /* dark left */
-    #bb1919 25%,     /* lighter */
-    #c94a50 50%,     /* lightest center */
-    #da3131 75%,     /* lighter */
-    #920101 100%     /* dark right */
+        to right,
+        #920101 0%,
+        #bb1919 25%,
+        #c94a50 50%,
+        #da3131 75%,
+        #920101 100%
     );
-    justify-content: space-between;
-    align-items: end;
     color: #fff;
-    margin-bottom: 0;
-    text-align: center;
-    font-size: 0.8rem;
-    width: 20rem;
-    height: 3rem;
-    padding-bottom: 10rem;
+    margin: 0 auto;
+    padding: 12px 18px;
+    border-radius: 8px;
 }
 
-.privacy-policy .p0 {
-    margin-right: 1rem;
-}
-
+.privacy-policy .p0,
 .privacy-policy .p {
-    margin-left: 12rem;
+    margin: 0;
+    font-size: 0.95rem;
+}
+
+
+/* =========================================
+   ADMIN SECTION STYLING (NESTED STRUCTURE)
+========================================= */
+
+section {
+  padding: 20px;
+
+  h1 {
+    color: #800000;
+    margin-bottom: 20px;
+    font-size: 28px;
+    border-left: 5px solid #800000;
+    padding-left: 10px;
+  }
+
+  /* =========================
+     STAFF INFO
+  ========================= */
+  #adminInfo {
+    background: #fff;
+    border-left: 5px solid #800000;
+    padding: 15px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+
+    h2 {
+      color: #800000;
+      margin-bottom: 10px;
+    }
+
+    p {
+      margin: 5px 0;
+      color: #333;
+    }
+  }
+
+  /* =========================
+     STAFF SELECT
+  ========================= */
+  .staff-select-section {
+    margin-bottom: 20px;
+
+    aside {
+      background: #fff;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 6px 15px rgba(0,0,0,0.08);
+
+      h2 {
+        color: #800000;
+        margin-bottom: 15px;
+      }
+
+      label {
+        display: block;
+        margin-bottom: 8px;
+        color: #444;
+      }
+
+      select {
+        width: 100%;
+        padding: 10px;
+        border-radius: 8px;
+        border: 1px solid #ccc;
+        outline: none;
+        transition: 0.3s;
+
+        &:focus {
+          border-color: #800000;
+          box-shadow: 0 0 5px rgba(128, 0, 0, 0.4);
+        }
+      }
+    }
+  }
+
+  /* =========================
+     ATTENDANCE SECTION
+  ========================= */
+  .attendance-section {
+    margin-bottom: 25px;
+
+    aside {
+      background: #fff;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+
+      h2 {
+        color: #800000;
+        margin-bottom: 15px;
+      }
+
+      .attendance-filter {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin-bottom: 15px;
+
+        label {
+          color: #444;
+        }
+
+        input {
+          padding: 8px;
+          border-radius: 6px;
+          border: 1px solid #ccc;
+
+          &:focus {
+            border-color: #800000;
+            outline: none;
+          }
+        }
+      }
+
+      .attendance-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-bottom: 15px;
+
+        thead {
+          background: #800000;
+          color: #fff;
+
+          th {
+            padding: 10px;
+            text-align: left;
+          }
+        }
+
+        tbody {
+          tr {
+            border-bottom: 1px solid #eee;
+            transition: 0.2s;
+
+            &:hover {
+              background: #f3e6e6;
+            }
+
+            td {
+              padding: 10px;
+              color: #333;
+            }
+          }
+        }
+      }
+
+      button {
+        padding: 10px 15px;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        margin-right: 10px;
+        font-weight: bold;
+        transition: 0.3s;
+
+        &#checkInBtn {
+          background: #800000;
+          color: #fff;
+
+          &:hover {
+            background: #a00000;
+          }
+        }
+
+        &#checkOutBtn {
+          background: #333;
+          color: #fff;
+
+          &:hover {
+            background: #555;
+          }
+        }
+      }
+    }
+  }
+
+  /* =========================
+     CARDS (LESSON NOTES / PLANS)
+  ========================= */
+  .card {
+    background: #fff;
+    padding: 20px;
+    border-radius: 12px;
+    margin-bottom: 20px;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+
+    h2 {
+      color: #800000;
+      margin-bottom: 10px;
+    }
+
+    div {
+      color: #444;
+    }
+  }
 }
 

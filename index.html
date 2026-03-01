@@ -13,15 +13,19 @@
     <link rel="stylesheet" href="styles/form-base.css">
     <link rel="stylesheet" href="styles/base.css">
     <link rel="stylesheet" href="styles/large.css">
+    <link rel="stylesheet" href="styles/notification.css">
     
 
     <!--------------------SCRIPTS----------------------->
     <script type="module" src="scripts/firebase.js"></script>
-    <script type="module" src="scripts/login.js"></script>
+    <script type="module" src="scripts/landing-notifications.js"></script>
+    <script type="module" src="scripts/notifications.js"></script>
     <script type="module" src="scripts/dialogbox.js"></script>
+    <script type="module" src="scripts/login.js"></script>
     <script src="scripts/date.js" defer></script>
     <script src="scripts/navigation.js" defer></script>
     <script type="module" src="scripts/script.js"></script>
+    
     
 
     
@@ -50,22 +54,31 @@
 
         <!---------------NAVIGATION ------------------>
         <nav id="nav-links" class="nav-links">
-        <ul>
-            <li><a class="home-page" href="#">Home</a></li>
-            <li><a class="about-page" href="about-us.html">About Us</a></li>
-            <li><a class="#" href="#">Guardians</a></li>
-            <li>
-                <a class="#" href="./admission/admission.html">Admission</a>
-            </li>
-            <li><a class="staff-dashboard-page" href="#">Sign In</a></li>
-            <li class="message-box">
-                <label for="message">
-                    <img src="images/envelope.svg" alt="Message Icon" loading="lazy">
-                    Messages
-                </label>
-            </li>
-            <li><a href="./contact/contact-us.html">Contact</a></li>
-        </ul>
+            <ul>
+                <li><a class="home-page" href="#">Home</a></li>
+                <li><a class="about-page" href="about-us.html">About Us</a></li>
+                <li><a class="#" href="#">Guardians</a></li>
+                <li>
+                    <a class="#" href="./admission/admission.html">Admission</a>
+                </li>
+                <li><a class="staff-dashboard-page" href="#">Sign In</a></li>
+                <li class="message-box">
+                    <label for="message">
+                        <img src="images/envelope.svg" alt="Message Icon" loading="lazy">
+                        Messages
+                    </label>
+                </li>
+                <li><a href="./contact/contact-us.html">Contact</a></li>
+                <!-- ================= NOTIFICATION BELL ================= -->
+                <li>
+                    <div class="notification-container">
+                      <button id="notificationBell" class="notification-bell">
+                        🔔
+                        <span id="notificationCount" class="notification-count">0</span>
+                      </button>
+                    </div>
+                </li>
+            </ul>
         </nav>
 
     </header>
@@ -78,7 +91,7 @@
             <span class="hero-text"><div><strong>Welcome to Sacred Harvesters Int'L</strong></div>
             <div>__ Christian School __</div>
         <div class="hero-div3">Empowering Education with Faith & Excellence</div>
-        <h3 class="hero-signup" aria-label="Go to dashboard">Go to dashboard ></h3>
+        <h3 class="hero-signup" id="goDashboardBtn" aria-label="Go to dashboard">Go to dashboard ></h3>
         </section>
         <!-------------- Announcement Section------------>
         <section class="announcement-grid">
@@ -121,17 +134,17 @@
             <aside class="an-grid">
                 <aside class="an-container">
                     <h3>Recent Announcement</h3>
-                    <aside class="announcement-content">
+                    <aside id="landingAnnouncementList" class="announcement-content">
                         <img src="images/users-medical.svg" alt="icon" loading="lazy">
                         <p class="ptm-parag">Parent-teacher Meeting</p>
                         <p class="date-parag">May 14, 2026</p>
                     </aside>
-                    <aside class="announcement-content">
+                    <aside class="announcement-content" id="landingAnnouncementList">
                         <img src="images/calendar-days.svg" alt="icon" loading="lazy">
                         <p class="mes-parag">Midterm Exam Schedule</p>
                         <p class="date-parag">May 20, 2026</p>
                     </aside>
-                    <aside class="announcement-content">
+                    <aside class="announcement-content" id="landingAnnouncementList">
                         <img src="images/golf-hole.svg" alt="icon" loading="lazy">
                         <p class="sft-parag">School Field Trip to the museum</p>
                         <p class="date-parag">May 25, 2026</p>

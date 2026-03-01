@@ -4,37 +4,35 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Welcome to the Sacred Harvasters International School Home Page. Explore our academic programs, extracurricular activities, and community events. Join us in fostering a nurturing mind environment and cultivating excellence for holistic education and personal growth.">
-    <title>Sacred Harvasters International School Home Page</title>
+    <title>Student Attendance</title>
     <meta name="author" content="Vjutech LTD"/>
     <meta name="robots" content="index, follow">
 
     <!-------------------STYLES--------------------->
     <link rel="stylesheet" href="../styles/normalize.css">
-    <link rel="stylesheet" href="../styles/admin-base.css">
-    <link rel="stylesheet" href="../styles/form-base.css">
-    <link rel="stylesheet" href="../styles/admin-medium.css">
-    <link rel="stylesheet" href="../styles/admin-large.css">
+    <link rel="stylesheet" href="../styles/student-base.css">
+    <link rel="stylesheet" href="../styles/medium.css">
+    <link rel="stylesheet" href="../styles/student-large.css">
     <link rel="stylesheet" href="../styles/notification.css">
+
+    
     
 
     <!--------------------SCRIPTS----------------------->
+    <script type="module" src="scripts/firebase.js"></script>
+    <script type="module" src="scripts/login.js"></script>
     <script src="../scripts/date.js" defer></script>
     <script src="../scripts/navigation.js" defer></script>
-    <script src="../scripts/login.js" defer></script>
-    <script src="../scripts/dialogbox.js" defer></script>
-    <script src="../scripts/notifications-core.js" defer></script>
-    <script type="module" src="../scripts/admin-dashboard.js"></script>
-    <script src="../scripts/admin-notifications.js" defer></script>
-    <script src="../scripts/notifications.js" defer></script>
-    <script src="../scripts/notification-bell.js" defer></script>
-    <script src="../scripts/admin-notifications.js" defer></script>
-    <script type="module" src="../scripts/admin-lessons.js"></script>
-    <script src="scripts/utils/report-utils.js" defer></script>
+    <script type="module" src="../scripts/student-dashboard.js"></script>
+    <script src="../scripts/lesson-notes.js" defer></script>
+    <script type="module" src="../scripts/student-results.js"></script>
+    <script type="module" src="../scripts/student-lessons.js"></script>
+
   
     <!--Open Graph-->
     <meta property="og:title" content="Sacred Harvasters Internation School Home Page">
     <meta property="og:description" content="Welcome to the Sacred Arvasters International School Home Page. Explore our academic programs, extracurricular activities, and community events. Join us in fostering a nurturing mind environment and cultivating excellence for holistic education and personal growth.">
-    <meta property="og:image" content="images/harvester.svg">
+    <meta property="og:image" content="images/shics_favicon.svg">
     <meta property="og:url" content="https://Chimezie-homepage.com/">
     <meta property="og:type" content="website">
     <meta property="og:site_name" content="Sacred Harvasters International School">
@@ -43,7 +41,7 @@
     <link rel="icon" href="images/harvester.svg" type="image/x-icon" alt="Favicon">
 </head>
 <body>
-   <header>
+     <header>
         <img src="images/harvester.svg" alt="Logo" loading="lazy">
         <span>
             <div><strong>Sacred Harvesters Int'L</strong></div>
@@ -65,7 +63,7 @@
             <li><a class="staff-dashboard-page" href="#">Sign In</a></li>
             <li class="message-box">
                 <label for="message">
-                    <img src="images/envelope.svg" alt="Message Icon" loading="lazy">
+                    <img src="../images/envelope.svg" alt="Message Icon" loading="lazy">
                     Messages
                 </label>
             </li>
@@ -74,65 +72,28 @@
         </nav>
 
     </header>
-    <main>
-        <section class="first-screen">
-          <!--Navigation Submenu-->
-            <nav class="side-bar">
-              <ul>
-                  <li><a class="#" href="admin.html">Dashboard</a></li>
-                  <li><a class="#" href="staff-management.html">Staff Management</a></li>
-                  <li><a class="#" href="student-management.html">Student Management</a></li>
-                  <li><a class="#" href="result.html">Results</a></li>
-                  <li><a class="#" href="review-lessons.html">Review Lessons</a></li>
-                  <li><a class="#" href="reports.html">Reports</a></li>
-              </ul>
-            </nav>
-        </section>
-        <section>
-          <h1>Admin</h1>
-          <h3>Welcome to Dashboard</h3>
-            <h2>Students</h2>
-            <div id="studentList"></div>
-            </section>
-            
-            <section>
-              <h2>Staff</h2>
-              <div id="staffList"></div>
-            </section>
 
-            <section>
-                <h2>Send Notification</h2>
-              
-                <select title="Notification Type" id="notificationType">
-                  <option value="announcement">Global Announcement</option>
-                  <option value="role">Send To Role</option>
-                  <option value="individual">Send To Individual</option>
-                </select>
-              
-                <select title="recipient Role" id="recipientRole">
-                  <option value="">Select Role</option>
-                  <option value="student">Students</option>
-                  <option value="parent">Parents</option>
-                  <option value="staff">Staff</option>
-                </select>
-              
-                <select title="Select Recipient User" id="recipientUser"></select>
-              
-                <input type="text" id="notificationTitle" placeholder="Title">
-                <textarea id="notificationMessage" placeholder="Message"></textarea>
-              
-                <button id="sendNotificationBtn">Send</button>
-              </section>
-            
-            <section>
-              <h2>Parents</h2>
-              <div id="parentList"></div>
-            </section>
+    <!--Navigation Submenu-->
+     <nav id="nav-links" class="sub-menu">
+      <ul>
+          <li><a class="" href="student.html">Dashboard</a></li>
+          <li><a class="" href="student-attendance.html">Attendance</a></li>
+          <li><a class="" href="student-lessons.html">Lesson</a></li>
+          <li><a class="" href="student-results.html">Results</a></li>
+          <li><a class="" href="student-fees.html">Fees</a></li>
+          <li><a class="" href="student-results.html">Transcript</a></li>
+          <li><a class="" href="student-profile.html">Profile</a></li>
+      </ul>
+    </nav>
+    
+
+    <main>
+        <section class="student-results">
+          <h2>My Results</h2>
+          <div id="studentResultContainer"></div>
+
         </section>
-        <section>
-    
-    
-          
+
     </main>
     <footer>
         <section>

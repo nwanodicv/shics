@@ -2,74 +2,65 @@
  * login.js
  * ---------------------------------------
  * Handles login for:
- * - Admin (hard-coded)
- * - Staff / Student / Parent (Firebase Auth)
+ * - Admin
+ * - Staff
+ * - Student
+ * - Parent
+ * Using Firebase Auth + Firestore
  */
 
-import { auth } from "./firebase.js";
+import { auth, db } from "./firebase.js";
+
 import {
   signInWithEmailAndPassword
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 
 import {
-  getFirestore,
   doc,
   getDoc
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
-const db = getFirestore();
+/* =====================================================
+   MAIN LOGIN FUNCTION
+===================================================== */
+ async function staffLogin(email, password) {
 
-/* ================= ADMIN CREDENTIALS ================= */
-const ADMIN_EMAIL = "sacredharvesters@gmail.com";
-const ADMIN_PASSWORD = "@Myadmin1"; // change later
-
-/* ================= MAIN LOGIN FUNCTION ================= */
-async function staffLogin(email, password) {
-
-  /* ---------- ADMIN LOGIN ---------- */
-  if (email === ADMIN_EMAIL && password === ADMIN_PASSWORD) {
-    const adminUser = {
-      role: "admin",
-      email
-    };
-
-    localStorage.setItem("currentUser", JSON.stringify(adminUser));
-    window.location.href = "../admin/admin.html";
-    return;
-  }
-
-  /* ---------- FIREBASE LOGIN ---------- */
+  // Sign in with Firebase Auth
   const cred = await signInWithEmailAndPassword(auth, email, password);
   const user = cred.user;
 
-  /* ---------- GET USER ROLE FROM FIRESTORE ---------- */
+  // Fetch user profile from Firestore
   const userRef = doc(db, "users", user.uid);
   const snap = await getDoc(userRef);
 
   if (!snap.exists()) {
-    throw new Error("User role not found");
+    throw new Error("User role not found.");
   }
 
   const userData = snap.data();
 
-  /* ---------- STORE SESSION ---------- */
-  localStorage.setItem("currentUser", JSON.stringify({
-    uid: user.uid,
-    role: userData.role,
-    email: user.email
-  }));
+  /* =====================================================
+     ROLE-BASED REDIRECTION
+  ===================================================== */
 
-  /* ---------- REDIRECT ---------- */
-  if (userData.role === "student") {
-    window.location.href = "student.html";
-  } else if (userData.role === "staff") {
-    window.location.href = "staff.html";
-  } else if (userData.role === "parent") {
-    window.location.href = "parent.html";
-  } else {
-    throw new Error("Unknown role");
+  if (userData.role === "admin") {
+    window.location.href = "../admin/admin.html";
+  }
+  else if (userData.role === "student") {
+    window.location.href = "../student/student.html";
+  }
+  else if (userData.role === "staff") {
+    window.location.href = "../staff/staff.html";
+  }
+  else if (userData.role === "parent") {
+    window.location.href = "../parents/parent.html";
+  }
+  else {
+    throw new Error("Unknown role.");
   }
 }
 
-/* ================= EXPORT ================= */
+/* =====================================================
+   EXPORT FUNCTION
+===================================================== */
 export { staffLogin };

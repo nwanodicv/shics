@@ -1,0 +1,189 @@
+/* 
+ * Parent Dashboard - Large Screen (Desktop)
+ * Media Query: min-width: 1024px
+ */
+
+@media (min-width: 1024px) {
+
+    /************* MAIN ****************/
+    main {
+        padding: 40px 60px;
+        max-width: 1400px;
+        margin: 0 auto;
+
+        & h1 {
+            font-size: 2.5rem;
+            margin-bottom: 50px;
+        }
+
+        & h2 {
+            font-size: 1.5rem;
+        }
+    }
+
+    /************* PARENT WELCOME ****************/
+    #parentWelcome {
+        font-size: 1.5rem;
+        margin-bottom: 50px;
+        text-align: left;
+    }
+
+    /************* NOTIFICATIONS SECTION ****************/
+    .notifications-section {
+        margin-bottom: 50px;
+        display: grid;
+        grid-template-columns: 1fr 2fr;
+        gap: 30px;
+        align-items: start;
+
+        & aside {
+            padding: 30px;
+            position: sticky;
+            top: 100px;
+
+            & h2 {
+                font-size: 1.2rem;
+                margin-bottom: 20px;
+            }
+
+            & #notifications {
+                display: grid;
+                grid-template-columns: 1fr;
+                gap: 15px;
+
+                & > div {
+                    padding: 18px;
+                    font-size: 0.95rem;
+                }
+            }
+        }
+    }
+
+    /************* PARENT DASHBOARD SECTION ****************/
+    .parent-dashboard {
+        padding: 40px;
+        column-count: 1;
+
+        & h2 {
+            font-size: 1.6rem;
+            margin-bottom: 35px;
+        }
+
+        & #childrenList {
+            grid-template-columns: repeat(3, 1fr);
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+
+        & .child-card {
+            padding: 25px;
+            border-radius: 12px;
+
+            & h3 {
+                font-size: 1.3rem;
+                margin-bottom: 10px;
+            }
+
+            & p {
+                font-size: 1rem;
+                margin: 10px 0;
+            }
+
+            & button {
+                padding: 12px 28px;
+                font-size: 1.05rem;
+                width: 100%;
+                margin-top: 15px;
+            }
+        }
+
+        /* Side-by-side layout for report card and download */
+        & #reportCardView {
+            padding: 30px;
+            margin-bottom: 30px;
+
+            & h2 {
+                font-size: 1.5rem;
+                margin-bottom: 25px;
+            }
+
+            & ul {
+                grid-template-columns: repeat(3, 1fr);
+                gap: 20px;
+
+                & li {
+                    padding: 22px;
+                    border-radius: 8px;
+                }
+            }
+        }
+    }
+
+    /************* DOWNLOAD BUTTON ****************/
+    #downloadBtn {
+        max-width: 500px;
+        padding: 18px 36px;
+        font-size: 1.1rem;
+        margin: 50px auto;
+    }
+
+    /************* ANIMATIONS FOR DESKTOP ****************/
+    .child-card {
+        animation: slideInUp 0.6s ease-out;
+    }
+
+    .child-card:nth-child(1) { animation-delay: 0.1s; }
+    .child-card:nth-child(2) { animation-delay: 0.2s; }
+    .child-card:nth-child(3) { animation-delay: 0.3s; }
+    .child-card:nth-child(4) { animation-delay: 0.4s; }
+    .child-card:nth-child(5) { animation-delay: 0.5s; }
+    .child-card:nth-child(6) { animation-delay: 0.6s; }
+    .child-card:nth-child(7) { animation-delay: 0.7s; }
+    .child-card:nth-child(8) { animation-delay: 0.8s; }
+    .child-card:nth-child(9) { animation-delay: 0.9s; }
+    .child-card:nth-child(10) { animation-delay: 1s; }
+
+    @keyframes slideInUp {
+        from {
+            opacity: 0;
+            transform: translateY(30px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    /************* HOVER EFFECTS ENHANCED ****************/
+    .child-card:hover {
+        box-shadow: 0 12px 24px rgba(128, 0, 0, 0.2);
+    }
+
+    #downloadBtn:hover {
+        box-shadow: 0 8px 24px rgba(128, 0, 0, 0.5);
+    }
+
+}
+
+@media (min-width: 1440px) {
+    main {
+        padding: 50px 80px;
+        max-width: 1600px;
+    }
+
+    .notifications-section {
+        grid-template-columns: 1fr 3fr;
+    }
+
+    .parent-dashboard {
+        padding: 50px;
+
+        & #childrenList {
+            grid-template-columns: repeat(4, 1fr);
+        }
+
+        & #reportCardView ul {
+            grid-template-columns: repeat(4, 1fr);
+        }
+    }
+}

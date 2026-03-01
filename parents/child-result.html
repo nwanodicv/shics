@@ -4,43 +4,33 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Welcome to the Sacred Harvasters International School Home Page. Explore our academic programs, extracurricular activities, and community events. Join us in fostering a nurturing mind environment and cultivating excellence for holistic education and personal growth.">
-    <title>Sacred Harvasters International School Home Page</title>
+    <title>Parent-dashboard</title>
     <meta name="author" content="Vjutech LTD"/>
     <meta name="robots" content="index, follow">
 
     <!-------------------STYLES--------------------->
     <link rel="stylesheet" href="../styles/normalize.css">
-    <link rel="stylesheet" href="../styles/admin-base.css">
     <link rel="stylesheet" href="../styles/form-base.css">
-    <link rel="stylesheet" href="../styles/admin-medium.css">
-    <link rel="stylesheet" href="../styles/admin-large.css">
-    <link rel="stylesheet" href="../styles/notification.css">
+    <link rel="stylesheet" href="../styles/student-base.css">
+    <link rel="stylesheet" href="../styles/medium.css">
+    <link rel="stylesheet" href="../styles/student-large.css">
     
 
     <!--------------------SCRIPTS----------------------->
+    <script type="module" src="../scripts/firebase.js"></script>
+    <script type="module" src="../scripts/login.js"></script>
     <script src="../scripts/date.js" defer></script>
     <script src="../scripts/navigation.js" defer></script>
-    <script src="../scripts/login.js" defer></script>
-    <script src="../scripts/dialogbox.js" defer></script>
-    <script src="../scripts/notifications-core.js" defer></script>
+    <script type="module" src="../scripts/parent-dashboard.js"></script>
+    <script type="module" src="../scripts/report-card.js"></script>
     
-    <script src="../scripts/notifications.js" defer></script>
-    <script src="../scripts/notification-bell.js" defer></script>
-    <script src="../scripts/admin-notifications.js" defer></script>
-    <script type="module" src="../scripts/admin-lessons.js"></script>
-    <script src="../scripts/grade-entry.js" defer></script>
-    <script src="../scripts/roles.js" defer></script>
-    <script src="../scripts/reports.js" defer></script>
 
-    
-    <script src="scripts/roles.js" defer></script>
-    <script src="scripts/route-guard.js" defer></script>
-    <script src="scripts/utils/report-utils.js" defer></script>
+
   
     <!--Open Graph-->
     <meta property="og:title" content="Sacred Harvasters Internation School Home Page">
     <meta property="og:description" content="Welcome to the Sacred Arvasters International School Home Page. Explore our academic programs, extracurricular activities, and community events. Join us in fostering a nurturing mind environment and cultivating excellence for holistic education and personal growth.">
-    <meta property="og:image" content="images/harvester.svg">
+    <meta property="og:image" content="images/shics_favicon.svg">
     <meta property="og:url" content="https://Chimezie-homepage.com/">
     <meta property="og:type" content="website">
     <meta property="og:site_name" content="Sacred Harvasters International School">
@@ -50,11 +40,8 @@
 </head>
 <body>
     <header>
-        <img src="images/harvester.svg" alt="Logo" loading="lazy">
-        <span>
-            <div><strong>Sacred Harvesters Int'L</strong></div>
-            <div class="my-span">__ Christian School __</div>
-        </span>
+        <img src="../images/harvester.svg" alt="Logo" loading="lazy">
+        <span>SHICS</span>
 
         <!-----------------HAMBURGER---------------->
         <button aria-label="hamburger button" class="hamburger" id="ham-btn"></button>
@@ -62,74 +49,32 @@
         <!---------------NAVIGATION ------------------>
         <nav id="nav-links" class="nav-links">
         <ul>
-            <li><a class="home-page" href="../index.html">Home</a></li>
-            <li><a class="about-page" href="../about-us.html">About Us</a></li>
-            <li><a class="#" href="#">Guardians</a></li>
-            <li>
-                <a class="#" href="../admission/admission.html">Admission</a>
-            </li>
-            <li class="message-box">
-                <label for="message">
-                    <img src="../images/envelope.svg" alt="Message Icon" loading="lazy">
-                    Messages
-                </label>
-            </li>
-            <li><a href="../contact/contact-us.html">Contact</a></li>
+            <li><a class="home-page" href="index.html">Home</a></li>
+            <li><a class="staff-dashboard-page" href="#">Sign In</a></li>
         </ul>
         </nav>
 
     </header>
-    <main>
-        <section class="first-screen">
-          <!--Navigation Submenu-->
-            <nav class="side-bar">
-              <ul>
-                <li><a class="#" href="admin.html">Dashboard</a></li>
-                <li><a class="#" href="staff-management.html">Staff Management</a></li>
-                <li><a class="#" href="#">Student Management</a></li>
-                <li><a class="#" href="result.html">Results</a></li>
-                <li><a class="#" href="review-lessons.html">Review Lessons</a></li>
-                <li><a class="#" href="reports.html">Reports</a></li>
-              </ul>
-            </nav>
-        </section>
-        <section>
-           <h1>Attendance Reports & Analytics</h1>
+    <!--Navigation Submenu-->
+    <nav class="sub-menu">
+      <ul>
+          <li><a class="#" href="parent.html">Dashboard</a></li>
+          <li><a class="#" href="children-attendance.html">Child Attendance</a></li>
+          <li><a class="#" href="child-result.html">Child Result</a></li>
+          <li><a class="#" href="#">Logout</a></li>
+      </ul>
+
+    <!-- MAIN CONTENT -->
+    <main class="main-content">
+        <h1>Result & Reports</h1>
+        
+       <section class="parent-dashboard">
+            <h2>My Children Information & Reports</h2>
+            <div id="childrenList"></div>
+            <div id="reportCardView"></div>
+       </section>
+       
     
-            <!-- SUMMARY CARDS -->
-            <section class="report-cards">
-              <div class="card">
-                <h3>Total Staff</h3>
-                <p id="totalStaff">0</p>
-              </div>
-          
-              <div class="card">
-                <h3>Staff Checked In Today</h3>
-                <p id="checkedInToday">0</p>
-              </div>
-          
-              <div class="card">
-                <h3>Absent Today</h3>
-                <p id="absentToday">0</p>
-              </div>
-            </section>
-          
-            <!-- ATTENDANCE TABLE -->
-            <section>
-              <h2>Staff Attendance Summary</h2>
-              <table>
-                <thead>
-                  <tr>
-                    <th>Staff Name</th>
-                    <th>Total Check-ins</th>
-                    <th>Last Attendance</th>
-                  </tr>
-                </thead>
-                <tbody id="reportTable"></tbody>
-              </table>
-            </section>
-    
-        </section>
     </main>
     <footer>
         <section>

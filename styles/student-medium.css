@@ -1,0 +1,180 @@
+/*
+ * Student Pages - Tablet Styles
+ * Media Query: min-width: 768px
+ */
+
+@media (min-width: 768px) {
+
+    /************* MAIN ****************/
+    main {
+        padding: 30px 40px;
+        max-width: 1000px;
+        margin: 0 auto;
+
+        & h1 {
+            font-size: 2.2rem;
+            margin-bottom: 40px;
+        }
+
+        & h2 {
+            font-size: 1.4rem;
+        }
+
+        & h3 {
+            font-size: 1.2rem;
+        }
+    }
+
+    /************* STUDENT WELCOME ****************/
+    #studentWelcome {
+        font-size: 1.4rem;
+        margin-bottom: 40px;
+    }
+
+    /************* STUDENT PROFILE SECTION ****************/
+    .student-profile {
+        padding: 30px;
+        margin-bottom: 30px;
+
+        & h3 {
+            font-size: 1.3rem;
+            margin-bottom: 25px;
+        }
+    }
+
+    /* Profile with Photo */
+    .profile-with-photo {
+        grid-template-columns: 200px 1fr;
+        gap: 30px;
+        align-items: start;
+
+        & .profile-photo {
+            & img {
+                width: 180px;
+                height: 180px;
+            }
+        }
+
+        & .profile-info {
+            & p {
+                font-size: 1rem;
+                margin: 15px 0;
+            }
+        }
+    }
+
+    /* Profile Card */
+    .profile-card {
+        padding: 25px;
+
+        & p {
+            display: grid;
+            grid-template-columns: 150px 1fr;
+            gap: 15px;
+            margin: 15px 0;
+            font-size: 0.98rem;
+
+            & strong {
+                min-width: 150px;
+            }
+        }
+    }
+
+    /************* ATTENDANCE SECTION ****************/
+    .attendance-section {
+        padding: 30px;
+
+        & table {
+            & th,
+            & td {
+                padding: 15px;
+                font-size: 0.95rem;
+            }
+        }
+    }
+
+    /************* FEES SECTION ****************/
+    .fees-section {
+        padding: 30px;
+
+        & .fee-card {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            padding: 0;
+            border: none;
+            background: transparent;
+
+            & > * {
+                padding: 15px;
+                background: linear-gradient(135deg, #f8f9fa 0%, #fff 100%);
+                border-left: 4px solid #800000;
+                border-radius: 6px;
+            }
+        }
+
+        & .fee-table {
+            & th,
+            & td {
+                padding: 15px;
+                font-size: 0.95rem;
+            }
+        }
+    }
+
+    /************* LESSONS SECTION ****************/
+    .lessons-section {
+        padding: 30px;
+
+        & .lesson-list {
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+
+            & .lesson-item {
+                padding: 20px;
+
+                & strong {
+                    font-size: 1.05rem;
+                }
+            }
+        }
+    }
+
+    /************* RESULTS SECTION ****************/
+    .results-section {
+        padding: 30px;
+
+        & .result-card {
+            padding: 20px;
+
+            & .result-row {
+                grid-template-columns: repeat(4, 1fr);
+            }
+        }
+
+        & .results-table {
+            & th,
+            & td {
+                padding: 15px;
+                font-size: 0.95rem;
+            }
+        }
+    }
+
+    /************* TRANSCRIPT SECTION ****************/
+    .transcript-section {
+        padding: 30px;
+
+        & .transcript-container {
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+        }
+    }
+
+    /************* PRINT BUTTON ****************/
+    .print-btn {
+        padding: 14px 32px;
+        font-size: 1rem;
+    }
+
+}

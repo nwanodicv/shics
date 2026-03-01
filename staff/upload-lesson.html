@@ -9,27 +9,22 @@
     <meta name="robots" content="index, follow">
 
     <!-------------------STYLES--------------------->
-    <link rel="stylesheet" href="styles/normalize.css">
-    <link rel="stylesheet" href="styles/staff-base.css">
-    <link rel="stylesheet" href="styles/medium.css">
-    <link rel="stylesheet" href="styles/large.css">
-    <link rel="stylesheet" href="styles/notification.css">
-    <link rel="stylesheet" href="styles/sidebar.css">
+    <link rel="stylesheet" href="../styles/normalize.css">
+    <link rel="stylesheet" href="../styles/staff-base.css">
+    <link rel="stylesheet" href="../styles/staff-medium.css">
+    <link rel="stylesheet" href="../styles/staff-large.css">
+    <link rel="stylesheet" href="../styles/notification.css">
     
 
     <!--------------------SCRIPTS----------------------->
-    <script type="module" src="scripts/firebase.js"></script>
-    <script type="module" src="scripts/login.js"></script>
-    <script src="scripts/date.js" defer></script>
-    <script src="scripts/navigation.js" defer></script>
-    <script src="scripts/auth.js" defer></script>
-    <script src="scripts/notifications.js" defer></script>
-    <script src="scripts/notification-bell.js" defer></script>
-    <script src="scripts/staff-dashboard.js" defer></script>
-    <script src="scripts/roles.js" defer></script>
-    <script src="scripts/route-guard.js" defer></script>
-    <script src="scripts/student-lesson.js" defer></script>
-    <script type="module" src="scripts/staff-lesson-upload.js"></script>
+    <script type="module" src="../scripts/firebase.js"></script>
+    <script type="module" src="../scripts/login.js"></script>
+    <script src="../scripts/date.js" defer></script>
+    <script src="../scripts/navigation.js" defer></script>
+    <script src="../scripts/notifications.js" defer></script>
+    <script src="../scripts/notification-bell.js" defer></script>
+    <script src="../scripts/roles.js" defer></script>
+    <script type="module" src="../scripts/staff-lesson-upload.js"></script>
 
   
     <!--Open Graph-->
@@ -73,94 +68,48 @@
         
     </header>
     <!--Navigation Submenu-->
-     <nav id="nav-links" class="nav-links">
-      <ul>
-          <li><a class="#" href="#">Attendance History</a></li>
-          <li><a class="#" href="#">Upload Lessons</a></li>
-          <li><a class="#" href="#">Profile</a></li>
-      </ul>
-    </nav>
-    
-
+        <nav id="sub-menu" class="sub-menu">
+          <ul>
+            <li><a class="#" href="attendance-history.html">Attendance History</a></li>
+            <li><a class="#" href="upload-lesson.html">Upload Lessons</a></li>
+            <li><a href="profile.html">My Profile</a></li>
+            <li><a href="settings.html">Settings</a></li>
+            <li><a href="#" id="logout-btn">Logout</a></li>
+          </ul>
+        </nav>
     <main>
-      <h1>Staff Dashboard</h1>
-      <!-- NOTIFICATIONS DISPLAY AREA -->
-      <section class="notifications-section">
-        <h2>Notifications</h2>
-        <div id="notifications"></div>
-      </section>
-      <section class="hero-section">
-          <img class="hero-img" src="images/staff-image.jfif" alt="Sacred Harvesters Int'l School Staff Hero Image" loading="lazy">
-          <h2 class="hero-text">We Cheerish All Our Dedicated Staff</h2>
-      </section>
-      <!-- STAFF INFORMATION SECTION -->
-       <section id="staffInfo" class="staff-info"></section>
-       <h2>Attendance History</h2>
-      <section class="attendance-section">
-          <aside>
-              <table class="attendance-table">
-                <thead>
-                  <tr>
-                    <th>Action</th>
-                    <th>Date</th>
-                    <th>Time</th>
-                  </tr>
-                </thead>
-                <tbody id="attendanceHistory"></tbody>
-              </table>
-              <button class="View-history-btn" id="view-history-btn">
-                View Attendance History
-              </button>
-          </aside>
-      </section>
-      <section>
-      <section class="card">
-          <h2>Upload Lesson Content</h2>
+      <h1>Upload Lesson Content</h1>
+        
+        
+          <!--  UPLOAD FORM -->
+          <section class="card">
+          <h2>Upload Lesson</h2>
         
           <form id="lessonUploadForm">
-            <input type="text" id="title" placeholder="Title" required />
-        
-            <select title="Select Subject" id="subject" required>
-              <option value="">Select Subject</option>
-              <option>Mathematics</option>
-              <option>English</option>
-              <option>Physics</option>
-            </select>
+            <input type="text" id="title" placeholder="Title" required>
+            <input type="text" id="subject" placeholder="Subject" required>
         
             <select title="Select Class" id="classId" required>
               <option value="">Select Class</option>
-              <option>JSS1</option>
-              <option>JSS2</option>
-              <option>SS1</option>
+              <option value="JSS1">JSS1</option>
+              <option value="JSS2">JSS2</option>
             </select>
         
-            <select title="Select Term" id="term" required>
-              <option>First Term</option>
-              <option>Second Term</option>
-              <option>Third Term</option>
+            <select title="Select Term" id="term">
+              <option value="First Term">First Term</option>
+              <option value="Second Term">Second Term</option>
             </select>
         
-            <select title="Select file Type" id="type" required>
-              <option value="lesson_note">Lesson Note (Students see)</option>
-              <option value="lesson_plan">Lesson Plan (Admin only)</option>
+            <select title="Select Type" id="type">
+              <option value="lesson_note">Lesson Note</option>
+              <option value="lesson_plan">Lesson Plan</option>
             </select>
-            <label for="fileUpload">
-              <input placeholder="Select File" type="file" id="fileUpload" accept=".pdf,.doc,.docx,.ppt,.pptx" required>
-            </label>
+        
+            <input title="upload Your File" type="file" id="fileUpload" required>
         
             <button type="submit">Upload</button>
           </form>
         </section>
-        
-        <section class="card">
-          <h2>My Uploads</h2>
-          <div id="myUploads"></div>
-        </section>
-
-        </section>
-        
-        
-                
         
     </main>
     <footer>

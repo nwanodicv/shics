@@ -1,11 +1,11 @@
-import { db, storage } from "./firebase-config.js";
+import { db, storage } from "./firebase.js";
 import {
   collection,
   addDoc,
   query,
   where,
-  getDocs,
-  serverTimestamp
+  serverTimestamp,
+  onSnapshot
 } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
 import {
@@ -14,70 +14,113 @@ import {
   getDownloadURL
 } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-storage.js";
 
+import {
+  getAuth,
+  onAuthStateChanged
+} from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+
+/* ================= ELEMENTS ================= */
 const form = document.getElementById("lessonUploadForm");
 const uploadsDiv = document.getElementById("myUploads");
 
-const staff = JSON.parse(localStorage.getItem("currentUser"));
+const fileInput = document.getElementById("fileUpload");
+const titleInput = document.getElementById("title");
+const subjectInput = document.getElementById("subject");
+const classSelect = document.getElementById("classId");
+const termSelect = document.getElementById("term");
+const typeSelect = document.getElementById("type");
+
+/* ================= AUTH ================= */
+const auth = getAuth();
+let currentUser = null;
+
+/* ================= INIT ================= */
+onAuthStateChanged(auth, (user) => {
+  if (!user) {
+    alert("Please login first");
+    window.location.href = "login.html";
+    return;
+  }
+
+  currentUser = user;
+
+  // Load uploads correctly
+  loadMyUploadsRealtime(user);
+});
 
 /* ================= UPLOAD ================= */
-form.addEventListener("submit", async (e) => {
-  e.preventDefault();
+if (form) {
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault();
 
-  try {
-    const file = document.getElementById("file").files[0];
+    try {
+      if (!currentUser) throw new Error("User not authenticated");
 
-    const fileRef = ref(
-      storage,
-      `lessonContents/${staff.id}/${Date.now()}_${file.name}`
-    );
+      if (!fileInput || fileInput.files.length === 0) {
+        throw new Error("No file selected");
+      }
 
-    await uploadBytes(fileRef, file);
-    const fileUrl = await getDownloadURL(fileRef);
+      const file = fileInput.files[0];
 
-    await addDoc(collection(db, "lessonContents"), {
-      title: title.value,
-      subject: subject.value,
-      classId: classId.value,
-      term: term.value,
-      type: type.value,
-      contentUrl: fileUrl,
-      uploadedBy: staff.id,
-      uploaderName: staff.name || "Staff",
-      createdAt: serverTimestamp()
-    });
+      const fileRef = ref(
+        storage,
+        `lessonContents/${currentUser.uid}/${Date.now()}_${file.name}`
+      );
 
-    alert("Upload successful!");
-    form.reset();
-    loadMyUploads();
+      await uploadBytes(fileRef, file);
+      const fileUrl = await getDownloadURL(fileRef);
 
-  } catch (err) {
-    console.error(err);
-    alert("Upload failed");
-  }
-});
-/* ================= MY UPLOADS ================= */
-async function loadMyUploads() {
-  uploadsDiv.innerHTML = "";
+      await addDoc(collection(db, "lessonContents"), {
+        title: titleInput?.value || "Untitled",
+        subject: subjectInput?.value || "",
+        classId: classSelect?.value || "",
+        term: termSelect?.value || "",
+        type: typeSelect?.value || "lesson_note",
+        contentUrl: fileUrl,
+        uploadedBy: currentUser.uid,
+        uploaderName: currentUser.displayName || "Staff",
+        createdAt: serverTimestamp()
+      });
 
-  const q = query(
-    collection(db, "lessonContents"),
-    where("uploadedBy", "==", staff.id)
-  );
+      alert("Upload successful!");
+      form.reset();
 
-  const snapshot = await getDocs(q);
-
-  snapshot.forEach(doc => {
-    const d = doc.data();
-
-    uploadsDiv.innerHTML += `
-      <div class="upload-card">
-        <h4>${d.title}</h4>
-        <p>${d.subject} — ${d.classId}</p>
-        <p>Type: ${d.type}</p>
-        <a href="${d.contentUrl}" target="_blank">View</a>
-      </div>
-    `;
+    } catch (err) {
+      console.error("UPLOAD ERROR:", err);
+      alert(err.message || "Upload failed");
+    }
   });
 }
 
-loadMyUploads();
+/* ================= REAL-TIME UPLOADS ================= */
+function loadMyUploadsRealtime(user) {
+  if (!uploadsDiv) return;
+
+  const q = query(
+    collection(db, "lessonContents"),
+    where("uploadedBy", "==", user.uid)
+  );
+
+  onSnapshot(q, (snapshot) => {
+    if (snapshot.empty) {
+      uploadsDiv.innerHTML = "<p>No uploads yet.</p>";
+      return;
+    }
+
+    uploadsDiv.innerHTML = "";
+
+    snapshot.forEach(docSnap => {
+      const d = docSnap.data();
+
+      uploadsDiv.innerHTML += `
+        <div class="upload-card">
+          <h4>${d.title}</h4>
+          <p>${d.subject} — ${d.classId}</p>
+          <p>Type: ${d.type}</p>
+          <p>Term: ${d.term || "-"}</p>
+          <a href="${d.contentUrl}" target="_blank">View</a>
+        </div>
+      `;
+    });
+  });
+}

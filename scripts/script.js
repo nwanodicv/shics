@@ -1,4 +1,47 @@
 import { gallery } from "/scripts/gallery.mjs";
+/**
+ * Redirect user based on role after login
+ */
+
+import { auth, db } from "./firebase.js";
+import { onAuthStateChanged } from
+"https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+import { doc, getDoc } from
+"https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+const goBtn = document.getElementById("goDashboardBtn");
+
+goBtn?.addEventListener("click", () => {
+    if (!auth.currentUser) return; // let dialogbox.js open login
+
+  onAuthStateChanged(auth, async (user) => {
+
+    if (!user) {
+      alert("Please sign in first.");
+      return;
+    }
+
+    const snap = await getDoc(doc(db, "users", user.uid));
+
+    if (!snap.exists()) return;
+
+    const role = snap.data().role;
+
+    if (role === "admin")
+      window.location.href = "../admin/admin.html";
+
+    if (role === "student")
+      window.location.href = "../student/student.html";
+
+    if (role === "staff")
+      window.location.href = "../staff/staff.html";
+
+    if (role === "parent")
+      window.location.href = "../parents/parent.html";
+  });
+
+});
+
 
 //console.log(gallery);
 
@@ -70,6 +113,8 @@ gallery.forEach((item) => {
     </aside>
   `;
 });
-galleryContainer.innerHTML = innerHTML;
-
+// Only render gallery if container exists
+if (galleryContainer) {
+  galleryContainer.innerHTML = innerHTML;
+}
 

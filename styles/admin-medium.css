@@ -1,0 +1,58 @@
+/* Admin - Tablet styles (768px - 1023px) */
+
+@media (min-width: 768px) and (max-width: 1023px) {
+
+  main {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 28px;
+    grid-template-columns: 220px 1fr;
+    gap: 28px;
+  }
+
+  .first-screen .side-bar {
+    padding: 22px;
+  }
+
+  .report-cards {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 18px;
+  }
+
+  .report-cards .card {
+    padding: 22px;
+    font-size: 1rem;
+  }
+
+  .content-section {
+    padding: 22px;
+  }
+
+  .side-bar a {
+    padding: 12px 14px;
+    font-size: 1rem;
+  }
+
+  .content-section table th,
+  .content-section table td {
+    padding: 12px 14px;
+  }
+
+  .form-row {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .btn {
+    padding: 12px 20px;
+    font-size: 1rem;
+  }
+
+  /* Table wrapper and focus states */
+  .content-section .table-wrap { overflow-x: auto; }
+  .btn:focus, .side-bar a:focus { outline: 3px solid rgba(128,0,0,0.12); outline-offset: 2px; }
+
+  /* Navigation behavior: medium uses hamburger, hide full nav */
+  .hamburger { display: inline-block; }
+  .nav-links, #nav-links { display: none !important; }
+
+}

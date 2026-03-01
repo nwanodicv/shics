@@ -1,0 +1,159 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    /* =========================================
+       HELPER FUNCTION
+    ========================================= */
+    function isAdmin() {
+      return request.auth != null &&
+        get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == "admin";
+    }
+
+    function isStaff() {
+      return request.auth != null &&
+        get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == "staff";
+    }
+
+    /* =========================================
+       USERS COLLECTION
+    ========================================= */
+    match /users/{userId} {
+
+      allow create: if request.auth != null
+                    && request.auth.uid == userId;
+
+      allow read, update: if request.auth != null
+                          && request.auth.uid == userId;
+
+      // Admin override
+      allow read, update: if isAdmin();
+
+      // Parent can read linked child user document
+      allow read: if request.auth != null
+        && get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == "parent"
+        && userId in get(/databases/$(database)/documents/users/$(request.auth.uid)).data.children;
+
+      allow delete: if false;
+    }
+
+    /* =========================================
+       STUDENT RESULTS SUBCOLLECTION
+    ========================================= */
+    match /users/{studentId}/results/{resultId} {
+
+      allow create: if isAdmin();
+
+      allow read: if request.auth != null
+                  && request.auth.uid == studentId;
+
+      allow read: if isAdmin();
+
+      allow read: if request.auth != null
+        && get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == "parent"
+        && studentId in get(/databases/$(database)/documents/users/$(request.auth.uid)).data.children;
+
+      allow update, delete: if false;
+    }
+    
+    /* =========================================
+       ATTENDANCE COLLECTION
+    ========================================= */
+    match /attendance/{attendanceId} {
+    
+      // Admin can create attendance
+      allow create: if isAdmin();
+    
+      // Admin can read all
+      allow read: if isAdmin();
+    
+      // Staff read ONLY their own
+      allow read: if request.auth != null
+        && resource.data.staffId == request.auth.uid;
+    
+      // No updates/deletes
+      allow update, delete: if false;
+    }
+    
+    /* =========================================
+       LESSON CONTENTS (PRODUCTION READY )
+    ========================================= */
+    match /lessonContents/{docId} {
+
+      //  CREATE (Staff/Admin only + validation)
+      allow create: if request.auth != null
+        && (isAdmin() || isStaff())
+        && request.resource.data.title is string
+        && request.resource.data.subject is string
+        && request.resource.data.classId is string
+        && request.resource.data.term is string
+        && request.resource.data.type in ["lesson_note", "lesson_plan"]
+        && request.resource.data.contentUrl is string
+        && request.resource.data.uploadedBy == request.auth.uid;
+
+      //  READ CONTROL
+      allow read: if request.auth != null && (
+        isAdmin() ||
+
+        // Staff can see their own uploads
+        resource.data.uploadedBy == request.auth.uid ||
+
+        // Students can ONLY see lesson notes
+        resource.data.type == "lesson_note"
+      );
+
+      // UPDATE / DELETE (owner only)
+      allow update, delete: if request.auth != null
+        && request.auth.uid == resource.data.uploadedBy;
+    }
+    
+    /* =========================================
+       ANNOUNCEMENTS
+    ========================================= */
+    match /announcements/{announcementId} {
+    
+      allow create: if isAdmin();
+    
+      allow read: if request.auth != null;
+      
+      // Allow public read (landing page)
+      allow read: if true;
+
+    
+      allow update, delete: if false;
+    }
+    
+    /* =========================================
+       NOTIFICATIONS
+    ========================================= */
+    match /notifications/{notificationId} {
+    
+      // Admin can create
+      allow create: if isAdmin();
+    
+      // Recipient can read their own
+      allow read: if request.auth != null
+                  && resource.data.recipientId == request.auth.uid;
+    
+      // Admin can read all
+      allow read: if isAdmin();
+    
+      // Recipient can update read status
+      allow update: if request.auth != null
+                    && resource.data.recipientId == request.auth.uid
+                    && request.resource.data.read == true;
+    
+      allow delete: if false;
+    }
+
+    /* =========================================
+       GLOBAL RESULTS COLLECTION
+    ========================================= */
+    match /results/{resultId} {
+
+      allow create: if isAdmin();
+      allow read: if isAdmin();
+      allow update, delete: if false;
+    }
+  }
+}

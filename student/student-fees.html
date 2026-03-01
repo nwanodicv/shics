@@ -4,27 +4,29 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Welcome to the Sacred Harvasters International School Home Page. Explore our academic programs, extracurricular activities, and community events. Join us in fostering a nurturing mind environment and cultivating excellence for holistic education and personal growth.">
-    <title>Reports</title>
+    <title>Lesson Note Page</title>
     <meta name="author" content="Vjutech LTD"/>
     <meta name="robots" content="index, follow">
 
     <!-------------------STYLES--------------------->
-    <link rel="stylesheet" href="styles/normalize.css">
-    <link rel="stylesheet" href="styles/form-base.css">
-    <link rel="stylesheet" href="styles/base.css">
-    <link rel="stylesheet" href="styles/medium.css">
-    <link rel="stylesheet" href="styles/large.css">
+    <link rel="stylesheet" href="../styles/normalize.css">
+    <link rel="stylesheet" href="../styles/student-base.css">
+    <link rel="stylesheet" href="../styles/student-medium.css">
+    <link rel="stylesheet" href="../styles/student-large.css">
+    <link rel="stylesheet" href="../styles/notification.css">
+    
     
 
     <!--------------------SCRIPTS----------------------->
-    <script src="scripts/date.js" defer></script>
-    <script src="scripts/navigation.js" defer></script>
-    <script src="scripts/auth.js" defer></script>
-    <script src="scripts/grade-entry.js" defer></script>
-    <script src="scripts/roles.js" defer></script>
-    <script src="scripts/route-guard.js" defer></script>
-    <script src="scripts/reports.js" defer></script>
-    <script src="scripts/student-transcript.js" defer></script>
+    <script type="module" src="scripts/firebase.js"></script>
+    <script type="module" src="scripts/login.js"></script>
+    <script src="../scripts/date.js" defer></script>
+    <script src="../scripts/navigation.js" defer></script>
+    <script type="module" src="../scripts/student-dashboard.js"></script>
+    <script src="../scripts/lesson-notes.js" defer></script>
+    <script type="module" src="../scripts/student-results.js"></script>
+    <script type="module" src="../scripts/student-lessons.js"></script>
+
   
     <!--Open Graph-->
     <meta property="og:title" content="Sacred Harvasters Internation School Home Page">
@@ -48,18 +50,28 @@
         <!---------------NAVIGATION ------------------>
         <nav id="nav-links" class="nav-links">
         <ul>
-            <li><a class="home-page" href="admin.html">Home</a></li>
+            <li><a class="home-page" href="index.html">Home</a></li>
             <li><a class="staff-dashboard-page" href="#">Sign In</a></li>
         </ul>
         </nav>
 
     </header>
-    <main class="reports-page">
-      <h2>Academic Transcript</h2>
-      <div id="transcript"></div>
-      <button onclick="window.print()">Print Transcript</button>
-    </main>
 
+    <!--Navigation Submenu-->
+     <nav class="sub-menu">
+      <ul>
+          <li><a class="" href="student.html">Dashboard</a></li>
+          <li><a class="" href="student-attendance.html">Attendance</a></li>
+          <li><a class="" href="student-lessons.html">Lesson Note</a></li>
+          <li><a class="" href="student-results.html">Results</a></li>
+          <li><a class="" href="student-fees.html">Fees</a></li>
+          <li><a class="" href="student-transcript.html">Transcript</a></li>
+          <li><a class="" href="student-profile.html">Profile</a></li>
+      </ul>
+    </nav>
+    <main>
+       <h1>Student Fees</h1>
+    </main>
     <footer>
         <div>
             <h3>Office Address</h3>

@@ -1,160 +1,153 @@
 /**
  * staff-dashboard.js
  * --------------------------------------------------
- * Handles staff-only dashboard functionality:
- * - Authentication (staff only)
- * - View personal attendance history
- * - Upload lesson notes
- * - Logout (without altering attendance)
+ * Secure Staff Dashboard (Professional Version)
+ * - Firebase Auth Guard
+ * - Loads staff profile
+ * - Loads attendance history (Firestore)
+ * - Logout
+ * --------------------------------------------------
  */
 
-/* ==================================================
-   AUTHENTICATION (STAFF ONLY)
-================================================== */
+import { auth, db } from "./firebase.js";
 
-// Get current logged-in user
-const currentUser = JSON.parse(localStorage.getItem("currentUser"));
+import {
+  onAuthStateChanged,
+  signOut
+} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 
-// Block access if not staff
-if (!currentUser || currentUser.role !== "staff") {
-  alert("Access denied. Staff only.");
-  window.location.href = "index.html";
-}
+import {
+  doc,
+  getDoc,
+  collection,
+  query,
+  where,
+  getDocs,
+  orderBy
+} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
-/* ==================================================
-   DATA
-================================================== */
-
-// Load staff list
-const staffList = JSON.parse(localStorage.getItem("myStaff")) || [];
-
-// Find logged-in staff record
-const staff = staffList.find(s => s.id === currentUser.id);
-
-// Handle expired session
-//if (!staff) {
-//  alert("Session expired. Please login again.");
-//  localStorage.removeItem("currentUser");
-//  window.location.href = "index.html";
-//}
 
 /* ==================================================
-   STAFF INFO DISPLAY
+   AUTH GUARD (STAFF ONLY)
 ================================================== */
 
-document.querySelector("#staffInfo").innerHTML = `
-  <h2>Welcome, ${staff.firstName} ${staff.lastName}</h2>
-  <aside>
-    <p><strong>Email:</strong> ${staff.email}</p>
-    <p><strong>Subjects:</strong> ${staff.department}</p>
-  </aside>
-`;
+onAuthStateChanged(auth, async (user) => {
 
-/* ==================================================
-   ATTENDANCE HISTORY (VIEW ONLY)
-================================================== */
-
-const attendanceBody = document.querySelector("#attendanceHistory");
-const viewHistoryBtn = document.querySelector("#view-history-btn");
-
-viewHistoryBtn.addEventListener("click", () => {
-  attendanceBody.innerHTML = "";
-
-  // If admin has not checked staff in yet
-  if (!staff.attendance || staff.attendance.length === 0) {
-    attendanceBody.innerHTML =
-      `<tr><td colspan="3">No attendance record yet</td></tr>`;
+  if (!user) {
+    window.location.href = "index.html";
     return;
   }
 
-  // Render ONLY this staff's attendance
-  staff.attendance.forEach(record => {
-    const row = document.createElement("tr");
-    row.innerHTML = `
-      <td>${record.type}</td>
-      <td>${record.date}</td>
-      <td>${record.time}</td>
+  try {
+
+    const userRef = doc(db, "users", user.uid);
+    const snap = await getDoc(userRef);
+
+    if (!snap.exists() || snap.data().role !== "staff") {
+      alert("Access denied. Staff only.");
+      window.location.href = "index.html";
+      return;
+    }
+
+    const staff = snap.data();
+
+    /* ==============================================
+       DISPLAY STAFF PROFILE INFO
+    ============================================== */
+
+    document.getElementById("staffInfo").innerHTML = `
+      <h2>Welcome, ${staff.name}</h2>
+      <p><strong>Email:</strong> ${staff.email}</p>
+      <p><strong>Subjects:</strong> ${staff.subjects || "Not Assigned"}</p>
+      <p><strong>Phone:</strong> ${staff.phone || "N/A"}</p>
+      <p><strong>Qualification:</strong> ${staff.qualification || "N/A"}</p>
     `;
-    attendanceBody.appendChild(row);
-  });
+
+    /* ==============================================
+       LOAD ATTENDANCE HISTORY
+    ============================================== */
+
+    await loadAttendance(user.uid);
+
+  } catch (error) {
+    console.error("Staff dashboard error:", error);
+    alert("Error loading dashboard.");
+  }
+
 });
+
 
 /* ==================================================
-   LESSON NOTE UPLOAD
+   LOAD STAFF ATTENDANCE FROM FIRESTORE
 ================================================== */
-
-const subjectSelect = document.querySelector("#lessonSubject");
-const classSelect = document.querySelector("#lessonClass");
-
-uploadBtn.addEventListener("click", () => {
-  if (!fileInput.files.length) {
-    alert("Please select a lesson file.");
-    return;
-  }
-
-  if (!subjectSelect.value || !classSelect.value) {
-    alert("Please select subject and class.");
-    return;
-  }
-
-  const file = fileInput.files[0];
-
-  staff.lessons.push({
-    id: Date.now(),
-    name: file.name,
-    subject: subjectSelect.value,
-    class: classSelect.value,
-    uploadedAt: new Date().toLocaleString()
-  });
-
-  localStorage.setItem("myStaff", JSON.stringify(staffList));
-
-  fileInput.value = "";
-  renderLessons();
-});
-
-
-/**
- * Render uploaded lesson notes
- */
-function renderLessons() {
-  lessonList.innerHTML = "";
-
-  if (!staff.lessons.length) {
-    lessonList.innerHTML = "<li>No lessons uploaded</li>";
-    return;
-  }
-
-  staff.lessons.forEach(lesson => {
-    const li = document.createElement("li");
-    li.textContent =
-      `${staff.firstName} ${staff.lastName} → ${lesson.subject} (${lesson.class}) — ${lesson.name} [${lesson.uploadedAt}]`;
-    lessonList.appendChild(li);
-  });
-}
-
-renderLessons();
 
 /* ==================================================
-   LOGOUT (SESSION ONLY — NO ATTENDANCE)
+   LOAD STAFF ATTENDANCE FROM FIRESTORE (FIXED)
 ================================================== */
 
-const logoutBtn = document.querySelector("#logoutBtn");
+async function loadAttendance(staffId) {
 
-logoutBtn.addEventListener("click", () => {
-  localStorage.removeItem("currentUser");
+  const attendanceBody = document.getElementById("attendanceHistory");
 
-  alert("You have logged out successfully.");
-  window.location.href = "index.html";
-});
+  try {
 
-/* ================== Notification Section ============== */
-function loadMyNotifications(user) {
-  const notifications = getNotifications();
+    attendanceBody.innerHTML = "";
 
-  return notifications.filter(n =>
-    n.role === "all" ||
-    n.role === user.role &&
-    (!n.userId || n.userId === user.id)
-  );
+    /* =========================================
+       FIX: Removed orderBy to avoid index error
+       (You can add it back after creating index)
+    ========================================= */
+    const q = query(
+      collection(db, "attendance"),
+      where("staffId", "==", staffId)
+    );
+
+    const snapshot = await getDocs(q);
+
+    if (snapshot.empty) {
+      attendanceBody.innerHTML =
+        `<tr><td colspan="3">No attendance records yet</td></tr>`;
+      return;
+    }
+
+    /* =========================================
+       OPTIONAL: Manual sorting by timestamp
+       (so we still get latest first)
+    ========================================= */
+    const records = [];
+
+    snapshot.forEach(docSnap => {
+      records.push(docSnap.data());
+    });
+
+    // Sort manually (latest first)
+    records.sort((a, b) => {
+      return (b.timestamp?.seconds || 0) - (a.timestamp?.seconds || 0);
+    });
+
+    records.forEach(record => {
+
+      const row = document.createElement("tr");
+
+      /* =========================================
+         FIX: Removed type/status column (not used)
+      ========================================= */
+      row.innerHTML = `
+        <td>${record.action}</td>
+        <td>${record.date}</td>
+        <td>${record.time}</td>
+      `;
+
+      attendanceBody.appendChild(row);
+    });
+
+  } catch (error) {
+    console.error("Error loading attendance:", error);
+
+    /* =========================================
+       IMPROVED ERROR MESSAGE (DEBUG FRIENDLY)
+    ========================================= */
+    attendanceBody.innerHTML =
+      `<tr><td colspan="3">Error loading attendance</td></tr>`;
+  }
 }

@@ -12,8 +12,8 @@
     <link rel="stylesheet" href="../styles/normalize.css">
     <link rel="stylesheet" href="../styles/admin-base.css">
     <link rel="stylesheet" href="../styles/form-base.css">
-    <link rel="stylesheet" href="../styles/medium.css">
-    <link rel="stylesheet" href="../styles/large.css">
+    <link rel="stylesheet" href="../styles/admin-medium.css">
+    <link rel="stylesheet" href="../styles/admin-large.css">
     <link rel="stylesheet" href="../styles/notification.css">
     
 
@@ -22,9 +22,8 @@
     <script src="../scripts/navigation.js" defer></script>
     <script src="../scripts/login.js" defer></script>
     <script src="../scripts/dialogbox.js" defer></script>
-    <script src="../scripts/auth.js" defer></script>
     <script src="../scripts/notifications-core.js" defer></script>
-    <script src="../scripts/admin-dashboard.js" defer></script>
+    <script type="module" src="../scripts/admin-dashboard.js"></script>
     <script src="../scripts/admin-notifications.js" defer></script>
     <script src="../scripts/notifications.js" defer></script>
     <script src="../scripts/notification-bell.js" defer></script>
@@ -61,20 +60,19 @@
         <!---------------NAVIGATION ------------------>
         <nav id="nav-links" class="nav-links">
         <ul>
-            <li><a class="home-page" href="#">Home</a></li>
-            <li><a class="about-page" href="about-us.html">About Us</a></li>
-            <li><a class="#" href="#">Guardians</a></li>
+            <li><a class="home-page" href="../index.html">Home</a></li>
+            <li><a class="about-page" href="../about-us.html">About Us</a></li>
+            <li><a class="#" href="../guardians/index.html">Guardians</a></li>
             <li>
-                <a class="#" href="./admission/admission.html">Admission</a>
+                <a class="#" href="../admission/admission.html">Admission</a>
             </li>
-            <li><a class="staff-dashboard-page" href="#">Sign In</a></li>
             <li class="message-box">
                 <label for="message">
                     <img src="../images/envelope.svg" alt="Message Icon" loading="lazy">
                     Messages
                 </label>
             </li>
-            <li><a href="./contact/contact-us.html">Contact</a></li>
+            <li><a href="../contact/contact-us.html">Contact</a></li>
         </ul>
         </nav>
 
@@ -84,11 +82,12 @@
           <!--Navigation Submenu-->
             <nav class="side-bar">
               <ul>
-                  <li><a class="#" href="staff-management.html">Staff Management</a></li>
-                  <li><a class="#" href="#">Student Management</a></li>
-                  <li><a class="#" href="admin-results.html">Results</a></li>
-                  <li><a class="#" href="review-lessons.html">Review Lessons</a></li>
-                  <li><a class="#" href="reports.html">Reports</a></li>
+                <li><a class="#" href="admin.html">Dashboard</a></li>
+                <li><a class="#" href="staff-management.html">Staff Management</a></li>
+                <li><a class="#" href="#">Student Management</a></li>
+                <li><a class="#" href="result.html">Results</a></li>
+                <li><a class="#" href="review-lessons.html">Review Lessons</a></li>
+                <li><a class="#" href="reports.html">Reports</a></li>
               </ul>
             </nav>
         </section>
