@@ -30,8 +30,6 @@ header {
     display: grid;
     grid-template-columns: 24px auto auto;
     padding: 5px 0 5px 10px;
-    margin: 10px 10px;
-    width: 21rem;
     align-items: end;
     border-bottom: solid 1px #222;
     column-gap: 6px;
@@ -126,6 +124,7 @@ span > .my-span {
 a:hover {
     text-decoration: underline
 }
+
 
 /************* MAIN ****************/
 h1 {

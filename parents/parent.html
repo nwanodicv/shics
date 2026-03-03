@@ -41,16 +41,41 @@
 <body>
     <header>
         <img src="../images/harvester.svg" alt="Logo" loading="lazy">
-        <span>SHICS</span>
+        <span>
+            <div><strong>Sacred Harvesters Int'L</strong></div>
+            <div class="my-span">__ Christian School __</div>
+        </span>
 
         <!-----------------HAMBURGER---------------->
         <button aria-label="hamburger button" class="hamburger" id="ham-btn"></button>
 
         <!---------------NAVIGATION ------------------>
         <nav id="nav-links" class="nav-links">
-        <ul>
-            <li><a class="home-page" href="../index.html">Home</a></li>
-        </ul>
+            <ul>
+                <li><a class="home-page" href="#">Home</a></li>
+                <li><a class="about-page" href="about-us.html">About Us</a></li>
+                <li><a class="#" href="#">Guardians</a></li>
+                <li>
+                    <a class="#" href="./admission/admission.html">Admission</a>
+                </li>
+                <li><a class="staff-dashboard-page" href="#">Sign In</a></li>
+                <li class="message-box">
+                    <label for="message">
+                        <img src="../images/envelope.svg" alt="Message Icon" loading="lazy">
+                        Messages
+                    </label>
+                </li>
+                <li><a href="./contact/contact-us.html">Contact</a></li>
+                <!-- ================= NOTIFICATION BELL ================= -->
+                <li>
+                    <div class="notification-container">
+                      <button id="notificationBell" class="notification-bell">
+                        🔔
+                        <span id="notificationCount" class="notification-count">0</span>
+                      </button>
+                    </div>
+                </li>
+            </ul>
         </nav>
 
     </header>

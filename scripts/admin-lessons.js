@@ -1,3 +1,4 @@
+import { db } from "./firebase.js";
 import { onSnapshot, collection, query, where } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
 const lessonPlansList = document.getElementById("lessonPlansList");

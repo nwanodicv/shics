@@ -100,7 +100,7 @@ header {
     }
 }
 
-.nav-links.active {
+.nav-links.show {
     display: block;
 }
 
